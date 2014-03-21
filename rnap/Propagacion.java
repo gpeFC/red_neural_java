@@ -13,5 +13,18 @@ public class Propagacion{
 	private double[] entradas;
 	private double propagacion;
 
-	public Propagacion(double[] entradas, double[][] pesos){}
+	public Propagacion(double[] entradas, double[][] pesos){
+		this.pesos = pesos;
+		this.entradas = entradas;
+	}
+
+	public double obtenerPropagacion(){
+		return propagacion;
+	}
+
+	public void propagacionIterativa(){
+	}
+
+	public void propagacionRecurrente(){
+	}
 }
