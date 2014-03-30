@@ -8,15 +8,15 @@
 // Clase: RedNeuronalPerceptron
 
 public class RedNeuronalPerceptron{
-	private int numCpsOcts;
-	private int numNeuSalida;
-	private int[] numNeuOcts;
+	private int numCapasOcultas;
+	private int numNeuronasCapaSalida;
+	private int numNeuronasCapasOcultas;
 
-	private String arquitectura;
-	private String rango;
-	private String algoritmo;
-	private String aprendizaje;
-	private String activacion;
+	private String arquitecturaPerceptron;
+	private String rangoSalida;
+	private String algoritmoPropagacion;
+	private String aprendizajeActualizacion;
+	private String activacionPerceptron;
 	
 	private Perceptron[] capaEntradaPerceptron;
 	private Perceptron[] capaSalidaPerceptron;

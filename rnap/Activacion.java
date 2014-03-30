@@ -12,8 +12,8 @@ public class Activacion{
 	private double activacionAnterior;
 	private double propagacion;
 
-	public Activacion(double activacion, double propagacion){
-		activacionAnterior = activacion;
+	public Activacion(double activacionAnterior, double propagacion){
+		this.activacionAnterior = activacionAnterior;
 		this.propagacion = propagacion;
 	}
 
@@ -24,12 +24,18 @@ public class Activacion{
 	public void activacionIdentidad(){
 	}
 
-	public void activacionEscalonada(){
+	public void activacionEscalonBinario(){
+	}
+
+	public void activacionEscalonBipolar(){
 	}
 
 	public void activacionLinealTramos(){
 	}
 
-	public void activacionSigmoidea(){
+	public void activacionSigmoideBinario(){
+	}
+
+	public void activacionSigmoideBipolar(){
 	}
 }

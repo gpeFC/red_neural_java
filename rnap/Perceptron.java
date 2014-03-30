@@ -8,12 +8,12 @@
 // Clase: Perceptron
 
 public class Perceptron{
-	private double[] entradas; // Entradas presinpaticas de la neurona.
-	private double[][] pesos; // Pesos de las conexiones sinapticas.
-	private double umbral; // Bias de la neurona.
+	private double[] entradas;  // Entradas presinpaticas de la neurona.
+	private double[][] pesos;   // Pesos de las conexiones sinapticas.
+	private double umbral;      // Bias de la neurona.
 	private double propagacion; // Propagacion sinaptica de la neurona.
-	private double activacion; // Activacion sinaptica de la neurona.
-	private double salida; // Salida postsinaptica de la neurona.
+	private double activacion;  // Activacion sinaptica de la neurona.
+	private double salida;      // Salida postsinaptica de la neurona.
 
 	public Perceptron(double[] entradas, double[][] pesos, double umbral){
 		this.umbral = umbral;

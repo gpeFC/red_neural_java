@@ -22,9 +22,15 @@ public class Propagacion{
 		return propagacion;
 	}
 
-	public void propagacionIterativa(){
+	public void propagacionSimpleDiscreta(){
 	}
 
-	public void propagacionRecurrente(){
+	public void propagacionSimpleContinua(){
+	}
+
+	public void propagacionMulticapaSinRetropropagacion(){
+	}
+
+	public void propagacionMulticapaConRetropropagacion(){
 	}
 }
