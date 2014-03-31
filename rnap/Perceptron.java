@@ -5,7 +5,7 @@
  * Proyecto: Red Neuronal Artificial Perceptron 
  ******************************************************************************/
 
-// Clase: Perceptron
+// Clase: Perceptron ... EN ESPERA DE ACTUALIZACION.
 
 public class Perceptron{
 	private double[] entradas;  // Entradas presinpaticas de la neurona.
