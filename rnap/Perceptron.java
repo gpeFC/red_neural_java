@@ -8,17 +8,15 @@
 // Clase: Perceptron ...
 
 public class Perceptron{
-	private double bias;		// Umbral de activacion de la neurona.
-	private double epsilon;		// Tasa de aprendizaje del entrenamiento.
-	private double activacion;	// Valor de activacion de la neurona.
-	private double propagacion;	// Valor de propagacion de la neurona.
-	private double[] entradas;	// Patron de entradas de la red.
-	private double[] salidas;	// Patron de salidas asociadas a las entradas.
-	private double[] pesos;		// Patron de pesos asociados a las entradas.
+	private double bias;			// Umbral de activacion de la neurona.
+	private double error;			// Error de aprendizaje actual.
+	private double salida;			// Salida obtenida de la neurona.
+	private double epsilon;			// Tasa de aprendizaje del entrenamiento.
+	private double[] salidas;		// Salidas asociadas a los patrones de entrenamiento.
+	private double[][] entradas;	// Patrones de entrenamiento de la red.
+	private double[][] pesos;		// Patron de pesos asociados a las entradas.
 
-	public Perceptron(int dimension, double[] entradas, double[] salidas){
-		this.activacion = 0.0;							// Inicializacion en 0 del valor de activacion.
-		this.propagacion = 0.0;							// Inicializacion en 0 del valor de propagacion.
+	public Perceptron(int patrones, int argumentos, double[] entradas, double[] salidas){
 		do{
 			this.bias = (Math.random()*10 + 1)/10.0;	// Inicializacion aleatoria del bias.
 			this.epsilon = (Math.random()*10 + 1)/10.0;	// Inicializacion aleatoria de la tasa de aprendizaje.
@@ -27,12 +25,20 @@ public class Perceptron{
 		this.entradas = entradas;						// Asignacion del vector de las entradas.
 		this.salidas = new int[dimension];				// Asignacion del vector de las salidas.
 		this.salidas = salidas;
-		this.pesos = new double[dimension];
+		this.pesos = new double[patrones][argumentos];
 		for(int i=0; i<dimension; i++){
 			do{
 				this.pesos[i] = (Math.random()*10 + 1)/10.0;	// Inicializacion aleatoria de los pesos.
 			}while(this.pesos[i]==0.0);
 		}
+	}
+
+	public void establecerBias(double bias){
+		this.bias = bias;
+	}
+
+	public void establecerError(double error){
+		this.error = error;
 	}
 
 	public double[][] obtenerPesos(){
@@ -43,24 +49,7 @@ public class Perceptron{
 		return this.umbral;
 	}
 
-	public double obtenerPropagacion(){
-		return this.propagacion;
-	}
-
-	public double obtenerActivacion(){
-		return this.activacion;
-	}
-
 	public double obtenerSalida(){
 		return this.salida;
-	}
-
-	public void calcularPropagacion(){
-	}
-
-	public void calcularActivacion(){
-	}
-
-	public void calcularSalida(){
 	}
 }
