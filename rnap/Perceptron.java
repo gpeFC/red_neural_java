@@ -74,6 +74,18 @@ public class Perceptron{
 			this.salida = -1.0;
 	}
 
+	public void clasificarPatron(double[] patron){
+		double salida;
+		salida = 0.0;
+		for(int i=0; i<this.pesos.length; i++)
+			salida = salida + (this.pesos[i] * patron[i]);
+		salida = salida + bias;
+		if(salida > 0.0)
+			this.salida = 1.0;
+		else
+			this.salida = -1.0;
+	}
+
 	public void actualizarBias(){
 		this.bias = this.bias + this.error;
 	}

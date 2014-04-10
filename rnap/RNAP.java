@@ -13,7 +13,7 @@ public class RNAP{
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
 		int opcion=-1, num_neu, num_patrones, num_valores, funcion, epocas, errores;
-		double epsilon, salidas[], prueba[], entradas[][];
+		double epsilon, clase, salidas[], patron[], entradas[][];
 		String tipo_red, tipo_entrada;
 		Perceptron neuronas[];
 
@@ -90,6 +90,29 @@ public class RNAP{
 					System.out.printf("\n\tPesos: ");
 					neuronas[i].imprimePesos();
 					System.out.println();
+				}
+
+				patron = new double[num_valores];
+				System.out.printf("\nIngresar patron para clasificar.");
+				for(int i=0;i<num_valores;i++){
+					System.out.printf("\nPatron-valor[%d]: ", i);
+					patron[i] = (double)(entrada.nextDouble());
+				}
+
+				for(int i=0; i<num_neu; i++){
+					neuronas[i].clasificarPatron(patron);
+					System.out.printf("\n\nClase del patron ingresado: %.1f.\n", neuronas[i].obtenerSalidaCalculada());
+				}
+
+				System.out.printf("\nIngresar patron para clasificar.");
+				for(int i=0;i<num_valores;i++){
+					System.out.printf("\nPatron-valor[%d]: ", i);
+					patron[i] = (double)(entrada.nextDouble());
+				}
+
+				for(int i=0; i<num_neu; i++){
+					neuronas[i].clasificarPatron(patron);
+					System.out.printf("\n\nClase del patron ingresado: %.1f.\n", neuronas[i].obtenerSalidaCalculada());
 				}
 			}
 
