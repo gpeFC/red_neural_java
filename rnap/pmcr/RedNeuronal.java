@@ -10,13 +10,13 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
-	private int epocas;
+	private int epocas;		// Total de epocas/iteraciones de entrenamiento/aprendizaje.
 	private double alpha;
-	private double error;
+	private double errorLocal;
+	private double errorGlobal;
 	private double[] salidas;
 	private double[][] entradas;
-	private Perceptron[] capaSalida;
-	private ArrayList<CapaNeuronal> capasOcultas;
+	private ArrayList<CapaNeuronal> capasNeuronales;
 
 	public RedNeuronal(int epocas, int numArgs, int numPatrs, int numNeurs, int numCapas, int[] numNeursCapa, double[] salidas, double[][] entradas){
 		this.epocas = epocas;
@@ -32,9 +32,9 @@ public class RedNeuronal{
 		for(int i=0; i<numNeurs; i++){
 			this.capaSalida[i] = new Perceptron(numArgs);
 		}
-		this.capasOcultas = new ArrayList<CapaNeuronal>(numCapas);
-		for(int i=0; i<numCapas; i++){
-			CapaNeuronal capaOculta = new CapaNeuronal();
-		}
+		this.capasNeuronales = new ArrayList<CapaNeuronal>(numCapas);
+		//for(int i=0; i<numCapas; i++){
+		//	CapaNeuronal capaOculta = new CapaNeuronal();
+		//}
 	}
 }
