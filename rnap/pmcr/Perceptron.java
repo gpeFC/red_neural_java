@@ -25,24 +25,35 @@ public class Perceptron{
 		}
 	}
 
-	public double obtenerUmbral(){
-		return this.umbral;
+	public void establecerUmbral(double umbral){
+		this.umbral = umbral;
 	}
 
-	public double obtenerSalida(){
-		return this.salida;
+	public void establecerPesos(double[] pesos){
+		this.pesos = pesos;
+	}
+
+	public double obtenerUmbral(){
+		return this.umbral;
 	}
 
 	public double[] obtenerPesos(){
 		return this.pesos;
 	}
 
-	public void actualizarUmbral(){
+	public double obtenerSalida(){
+		return this.salida;
 	}
 
-	public void actualizarPesos(){
-	}
-
-	public void calcularSalida(){
+	public void calcularSalida(int funcion, double[] entrada){
+		if(funcion == 1){
+			this.salida = Activacion.logaritmoSigmoidal(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
+		}
+		else if(funcion == 2){
+			this.salida = Activacion.tangenteSigmoidal(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
+		}
+		else if(funcion == 3){
+			this.salida = Activacion.tangenteHiperbolica(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
+		}
 	}
 }
