@@ -17,7 +17,7 @@ public final class Activacion{
 	}
 
 	public static double tangenteSigmoidal(double potencial){
-		double activacion = 2.0 / (1.0 + (Math.pow(Math.E, -potencial)))) - 1.0;
+		double activacion = (2.0 / (1.0 + (Math.pow(Math.E, -potencial)))) - 1.0;
 		if(activacion > 0.0)
 			return 1.0;
 		else
