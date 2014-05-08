@@ -7,6 +7,25 @@
 
 // Clase: Activacion
 
+/*
+	actvBin(n){
+	para i in 1:n{
+		x <- i/n
+	}
+}
+
+actvBip(n){
+	para i in 1:m{
+		x <- (i/n)*2
+		si(x < 0){
+			x <- (x)*(-1)
+		}
+	}
+}
+	
+
+*/
+
 public final class Activacion{
 	public static double logaritmoSigmoidal(double potencial){
 		double activacion = 1.0 / (1.0 + (Math.pow(Math.E, -potencial)));
