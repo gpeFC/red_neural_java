@@ -10,7 +10,7 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
-	private int epocas;		// Total de epocas/iteraciones de entrenamiento/aprendizaje.
+	private int epocas;		
 	private double errorMinimo;
 	private double errorCalculado;
 	private double alpha;
