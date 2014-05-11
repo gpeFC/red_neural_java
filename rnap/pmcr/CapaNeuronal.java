@@ -7,19 +7,25 @@
 
 // Clase: CapaNeuronal
 
+/**
+* Clase definida para crear objetos 'capa neuronal' de tipo 'Perceptron' para 
+* construir una Red Neuronal Artificial multicapa.
+* @author Emanuel GP
+*/
 public class CapaNeuronal{
-	private int[] funciones;		// Indicador de funcion de activacion por neurona.
+	private byte[] funciones;		// Indicador de funcion de activacion por neurona.
 	private double[] delthas;		// Delthas calculados de cada neurona.
 	private double[] salidas;		// Salidas obtenidas de cada neurona.
 	private double[] entrada;		// Entradas para cada neurona.
 	private Perceptron[] neuronas;	// Neuronas de la capa.
 
-	public CapaNeuronal(int numNeurs, int numArgs){
+	/** Constructor para inicializar el objeto 'capa neuronal'. */
+	public CapaNeuronal(int numNeurs, int numArgs, double alpha){
 		this.entrada = new double[numArgs];
 		for(int i=0; i<numArgs; i++){
 			this.entrada[i] = 0.0;
 		}
-		this.funciones = new int[numNeurs];
+		this.funciones = new byte[numNeurs];
 		this.salidas = new double[numNeurs];
 		this.delthas = new double[numNeurs];
 		this.neuronas = new Perceptron[numNeurs];
@@ -27,7 +33,7 @@ public class CapaNeuronal{
 			this.funciones[i] = 0;
 			this.salidas[i] = 0.0;
 			this.delthas[i] = 0.0;
-			this.neuronas[i] = new Perceptron(numArgs);
+			this.neuronas[i] = new Perceptron(numArgs, alpha);
 		}
 	}
 
@@ -35,13 +41,7 @@ public class CapaNeuronal{
 		this.entrada = entrada;
 	}
 
-	public void establecerSalidas(){
-		for(int i=0; i<this.salidas.length; i++){
-			this.salidas[i] = this.neuronas[i].obtenerSalida();
-		}
-	}
-
-	public void establecerFuncionActivacion(int[] funciones){
+	public void establecerFuncionActivacion(byte[] funciones){
 		this.funciones = funciones;
 	}
 
@@ -53,11 +53,13 @@ public class CapaNeuronal{
 		return this.delthas;
 	}
 
+	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
 	public void actualizarUmbrales(double alpha){
 		for(int i=0; i<this.neuronas.length; i++)
 			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + (-alpha*this.delthas[i]));
 	}
 
+	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa. */
 	public void actualizarPesos(double alpha){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entrada.length];
@@ -69,6 +71,7 @@ public class CapaNeuronal{
 		}
 	}
 
+	/** Método para calcular y establecer la salida de cada neurona de la capa en un mismo arreglo. */
 	public void calcularSalidas(){
 		for(int i=0; i<this.neuronas.length; i++){
 			this.neuronas[i].calcularSalida(this.funciones[i], this.entrada);
@@ -76,6 +79,7 @@ public class CapaNeuronal{
 		}
 	}
 
+	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
 	public void calcularDelthas(double errorDelta){
 		for(int i=0; i<this.neuronas.length; i++){
 			if(this.funciones[i] == 1){
