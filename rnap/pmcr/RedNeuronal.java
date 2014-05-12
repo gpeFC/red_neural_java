@@ -18,6 +18,10 @@ public class RedNeuronal{
 	private double[][] entradasPatrones;
 	private ArrayList<CapaNeuronal> capasNeuronales;
 
+	public RedNeuronal(){
+		this.capasNeuronales = new ArrayList<CapaNeuronal>();
+	}
+
 	public RedNeuronal(int epocas, int numPatrs, int numArgs, int numCapas, int[] numNeursCapa){
 		this.epocas = epocas;
 		this.errorMinimo = 0.0;
@@ -35,7 +39,7 @@ public class RedNeuronal{
 		}
 		this.capasNeuronales = new ArrayList<CapaNeuronal>(numCapas);
 		for(int i=0; i<numCapas; i++){
-			CapaNeuronal capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs);
+			CapaNeuronal capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs, this.alpha);
 			this.capasNeuronales.add(capaNeuronal);
 		}
 	}
@@ -52,31 +56,31 @@ public class RedNeuronal{
 		this.entradasPatrones = entradasPatrones;
 	}
 
-	public void establecerConfiguracionActivacion(int funcion, int[] numNeursCapa){
-		int[] funciones;
+	public void establecerConfiguracionActivacion(byte funcion, byte[] numNeursCapa){
+		byte[] funciones;
 		CapaNeuronal capaActual;
 		for(int i=0; i<this.capasNeuronales.size(); i++){
 			capaActual = this.capasNeuronales.get(i);
-			funciones = new int[numNeursCapa[i]];
+			funciones = new byte[numNeursCapa[i]];
 			for(int j=0; j<numNeursCapa[i]; j++)
 				funciones[j] = funcion;
 			capaActual.establecerFuncionActivacion(funciones);
 		}
 	}
 
-	public void establecerConfiguracionActivacion(int funcionSalida, int funcionOcultas, int[] numNeursCapa){
-		int[] funciones;
+	public void establecerConfiguracionActivacion(byte funcionSalida, byte funcionOcultas, byte[] numNeursCapa){
+		byte[] funciones;
 		CapaNeuronal capaActual;
 		for(int i=0; i<this.capasNeuronales.size(); i++){
 			capaActual = this.capasNeuronales.get(i);
 			if(i == this.capasNeuronales.size()-1){
-				funciones = new int[numNeursCapa[i]];
+				funciones = new byte[numNeursCapa[i]];
 				for(int j=0; j<numNeursCapa[i]; j++)
 					funciones[j] = funcionSalida;
 				capaActual.establecerFuncionActivacion(funciones);
 			}
 			else{
-				funciones = new int[numNeursCapa[i]];
+				funciones = new byte[numNeursCapa[i]];
 				for(int j=0; j<numNeursCapa[i]; j++)
 					funciones[j] = funcionOcultas;
 				capaActual.establecerFuncionActivacion(funciones);
@@ -84,12 +88,12 @@ public class RedNeuronal{
 		}
 	}
 
-	public void establecerConfiguracionActivacion(int[] funcionCapa, int[] numNeursCapa){
-		int[] funciones;
+	public void establecerConfiguracionActivacion(byte[] funcionCapa, byte[] numNeursCapa){
+		byte[] funciones;
 		CapaNeuronal capaActual;
 		for(int i=0; i<this.capasNeuronales.size(); i++){
 			capaActual = this.capasNeuronales.get(i);
-			funciones = new int[numNeursCapa[i]];
+			funciones = new byte[numNeursCapa[i]];
 			for(int j=0; j<numNeursCapa[i]; j++)
 				funciones[j] = funcionCapa[i];
 			capaActual.establecerFuncionActivacion(funciones);

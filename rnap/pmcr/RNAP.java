@@ -13,8 +13,8 @@ import java.util.InputMismatchException;
 public class RNAP{
 	public static void main(String[] args){
 		int opcion, numCapas=0, numPatrones=0, numArgumentos=0, red, epocas=0, error=0;
-		int finRed, config=0, funcion=0, funcionSalida=0, funcionOcultas=0;
-		int[] funcionCapa, numNeuronas;
+		int finRed, config=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;;
+		int[] funcionCapa, numNeuronasCapa;
 		boolean fin;
 		double salidas[], entradas[][];
 		Scanner entrada = new Scanner(System.in);
@@ -37,7 +37,49 @@ public class RNAP{
 			}while(true);
 
 			if(opcion == 1){
-			}
+				do{
+					try{
+						System.out.printf("\nNumero de neuronas en la capa: ");
+						numNeuronas = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+				System.out.println("1) Escalon Binario(Hardlim).");
+				System.out.println("2) Escalon Bipolar(Hardlims).");
+				do{
+					try{
+						System.out.printf("\n\tFuncion de activacion a utilizar: ");
+						funcion = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+				do{
+					try{
+						System.out.printf("\nNumero de patrones de entrenamiento: ");
+						numPatrones = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+				do{
+					try{
+						System.out.printf("\nNumero de valores por patron: ");
+						numArgumentos = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+			}/*
 			else if(opcion == 2){
 				do{
 					try{
@@ -49,13 +91,13 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				numNeuronas = new int[numCapas];
+				numNeuronasCapa = new int[numCapas];
 				for(int i=0; i<numCapas; i++){
 					if(i == numCapas-1){
 						do{
 							try{
 								System.out.printf("\nNumero de neuronas en la capa de salida: ");
-								numNeuronas[i] = entrada.nextInt();
+								numNeuronasCapa[i] = entrada.nextInt();
 								break;
 							}
 							catch(InputMismatchException excepcion){
@@ -68,7 +110,7 @@ public class RNAP{
 						do{
 							try{
 								System.out.printf("\nNumero de neuronas en la capa oculta [%d]: ", i);
-								numNeuronas[i] = entrada.nextInt();
+								numNeuronasCapa[i] = entrada.nextInt();
 								break;
 							}
 							catch(InputMismatchException excepcion){
@@ -250,16 +292,16 @@ public class RNAP{
 				}while(true);
 				
 
-				perceptron = new RedNeuronal(epocas, numPatrones, numArgumentos, numCapas, numNeuronas);
+				perceptron = new RedNeuronal(epocas, numPatrones, numArgumentos, numCapas, numNeuronasCapa);
 				System.out.printf("\nEpocas(%d), Error(%d), NumPatrs(%d), NumArgs(%d), NumCapas(%d).", 
 								  epocas, error, numPatrones, numArgumentos, numCapas);
 
 				if(config == 1)
-					perceptron.establecerConfiguracionActivacion(funcion, numNeuronas);
+					perceptron.establecerConfiguracionActivacion(funcion, numNeuronasCapa);
 				else if(config == 2)
-					perceptron.establecerConfiguracionActivacion(funcionSalida, funcionOcultas, numNeuronas);
+					perceptron.establecerConfiguracionActivacion(funcionSalida, funcionOcultas, numNeuronasCapa);
 				else if(config == 3)
-					perceptron.establecerConfiguracionActivacion(funcionCapa, numNeuronas);
+					perceptron.establecerConfiguracionActivacion(funcionCapa, numNeuronasCapa);
 
 				System.out.printf("\nEstablecer patrones Entrada-Salida para el entrenamiento.\n");
 
@@ -299,17 +341,17 @@ public class RNAP{
 					do{
 						System.out.printf("\nContinua");
 						perceptron.establecerErrorMinimo(error, i);
-						perceptron.realizarPropagacion(i, numNeuronas);
+						perceptron.realizarPropagacion(i, numNeuronasCapa);
 						if(perceptron.obtenerErrorCalculado() <= perceptron.obtenerErrorMinimo())
 							fin = false;
 						else
-							perceptron.realizarRetroPropagacion(numNeuronas);
+							perceptron.realizarRetroPropagacion(numNeuronasCapa);
 						epocas++;
 					}while(fin);
 					System.out.printf("\nEpoca: %d", epocas);
 				}
 				System.out.printf("\n\tFin del entrenamiento...\n");
-			}
+			}*/
 		}while(opcion != 0);
 	}
 }
