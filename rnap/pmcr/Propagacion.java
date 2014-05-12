@@ -13,13 +13,13 @@
 * @author Emanuel GP
 */
 public final class Propagacion{
-	/** Regla de propagacion para redes feedforward multicapas: Suma Ponderada */
+	/** Regla de potencial para redes feedforward multicapas: Suma Ponderada */
 	public static double sumaPonderada(double umbral, double[] entrada, double[] pesos){
-		double propagacion = 0.0;
+		double potencial = 0.0;
 		for(int i=0; i<pesos.length; i++){
-			propagacion = propagacion + (pesos[i] * entrada[i]);
+			potencial = potencial + (pesos[i] * entrada[i]);
 		}
-		propagacion = propagacion - umbral;
-		return propagacion;
+		potencial = potencial - umbral;
+		return potencial;
 	}
 }

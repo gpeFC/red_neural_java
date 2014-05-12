@@ -21,18 +21,22 @@ public final class Activacion{
 
 	/** Funcion de activacion(escalonada): Escalon Binario */
 	public static double escalonBinario(double potencial){
+		double activacion;
 		if(potencial > 0.0)
-			return 1.0;
+			activacion = 1.0;
 		else
-			return 0.0;
+			activacion = 0.0;
+		return activacion;
 	}
 
 	/** Funcion de activacion(escalonada): Escalon Bipolar */
 	public static double escalonBipolar(double potencial){
+		double activacion;
 		if(potencial > 0.0)
-			return 1.0;
+			activacion = 1.0;
 		else
-			return -1.0;
+			activacion = -1.0;
+		return activacion;
 	}
 
 	/** Funcion de activacion(sigmoidea): Logaritmo Sigmoidal */

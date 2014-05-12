@@ -15,16 +15,19 @@
 public final class Derivada{
 	/** Derivada de la funcion 'Logaritmo Sigmoidal'. */
 	public static double logaritmoSigmoidal(double potencial){
-		return (Activacion.logaritmoSigmoidal(potencial) * (1 - Activacion.logaritmoSigmoidal(potencial)));
+		double derivada = (Activacion.logaritmoSigmoidal(potencial) * (1 - Activacion.logaritmoSigmoidal(potencial)));
+		return derivada;
 	}
 
 	/** Derivada de la funcion 'Tangente Sigmoidal'. */
 	public static double tangenteSigmoidal(double potencial){
-		return ((2*(Math.pow(Math.E, -potencial))) / Math.pow((1.0 + (Math.pow(Math.E, -potencial))), 2));
+		double derivada = ((2*(Math.pow(Math.E, -potencial))) / Math.pow((1.0 + (Math.pow(Math.E, -potencial))), 2));
+		return derivada;
 	}
 
 	/** Derivada de la funcion 'Tangente Hiperbolica'. */
 	public static double tangenteHiperbolica(double potencial){
-		return (1 - Math.pow(Activacion.tangenteHiperbolica(potencial), 2));
+		double derivada = (1 - Math.pow(Activacion.tangenteHiperbolica(potencial), 2));
+		return derivada;	
 	}
 }
