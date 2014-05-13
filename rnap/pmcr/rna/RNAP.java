@@ -8,17 +8,18 @@
 // Clase: RNAP
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class RNAP{
 	public static void main(String[] args){
 		int opcion, numCapas=0, numPatrones=0, numArgumentos=0, red, epocas=0, error=0;
 		int finRed, config=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;;
-		int[] funcionCapa, numNeuronasCapa;
+		byte[] funcionCapa, numNeuronasCapa;
 		boolean fin;
-		double salidas[], entradas[][];
+		double alpha=0.0, salidas[], entradas[][];
 		Scanner entrada = new Scanner(System.in);
-		RedNeuronal perceptron;
+		Entrenamiento algoritmo;
 
 		do{
 			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
@@ -35,8 +36,8 @@ public class RNAP{
 					entrada.nextLine();
 				}
 			}while(true);
-
 			if(opcion == 1){
+				CapaNeuronal perceptron;
 				do{
 					try{
 						System.out.printf("\nNumero de neuronas en la capa: ");
@@ -47,6 +48,7 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
+				funcionCapa = new byte[numNeuronas];
 				System.out.println("1) Escalon Binario(Hardlim).");
 				System.out.println("2) Escalon Bipolar(Hardlims).");
 				do{
@@ -59,6 +61,8 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
+				if(funcion == 1){
+				}
 				do{
 					try{
 						System.out.printf("\nNumero de patrones de entrenamiento: ");
@@ -79,6 +83,43 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
+
+				perceptron = new CapaNeuronal(numNeuronas, numArgumentos);
+				perceptron.establecerFuncionActivacion(funcionCapa);
+
+				salidas = new double[numPatrones];
+				entradas = new double[numPatrones][numArgumentos];
+
+				for(int i=0; i<numPatrones; i++){
+					for(int j=0; j<numArgumentos; j++){
+						do{
+							try{
+								System.out.printf("\nPatron[%d]->Valor[%d]: ", i, j);
+								entradas[i][j] = (double)(entrada.nextDouble());
+								break;
+							}
+							catch(InputMismatchException excepcion){
+								entrada.nextLine();
+							}
+						}while(true);
+						
+					}
+					do{
+						try{
+							System.out.printf("\nPatron[%d]->Salida: ", i);
+							salidas[i] = (double)(entrada.nextDouble());
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);	
+				}
+				algoritmo = new Entrenamiento(salidas, entradas);
+				System.out.printf("\nInicio del entrenamiento...\n");
+				algoritmo.perceptronSimple(perceptron, numNeuronas);
+				System.out.printf("\nFin del entrenamiento...\n");
+
 			}/*
 			else if(opcion == 2){
 				do{

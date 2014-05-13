@@ -10,10 +10,10 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
-	private int epocas;		
+	private int epocas;
+	private double alpha;
 	private double errorMinimo;
 	private double errorCalculado;
-	private double alpha;
 	private double[] salidasPatrones;
 	private double[][] entradasPatrones;
 	private ArrayList<CapaNeuronal> capasNeuronales;

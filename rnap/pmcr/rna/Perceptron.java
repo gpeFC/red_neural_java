@@ -19,8 +19,8 @@ public class Perceptron{
 	private double[] pesos; // Pesos sinapticos de la neurona.
 
 	/** Constructor para inicializar el objeto 'neurona'. */
-	public Perceptron(int numArgs, double alpha){
-		this.alpha = alpha;
+	public Perceptron(int numArgs){
+		this.alpha = 0.0;
 		this.salida = 0.0;
 		do{
 			this.umbral = (Math.random()*10 + 1)/10.0;	// Inicialización aleatoria del umbral\bias de la neurona.
@@ -62,24 +62,7 @@ public class Perceptron{
 	}
 
 	/** Método para calcular la respuesta de salida de la neurona respecto a los parámetros actuales. */
-	public void calcularSalida(int funcion, double[] entrada){
-		if(funcion == 1){
-			this.salida = Activacion.identidad(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
-		else if(funcion == 2){
-			this.salida = Activacion.escalonBinario(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
-		else if(funcion == 3){
-			this.salida = Activacion.escalonBipolar(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
-		else if(funcion == 4){
-			this.salida = Activacion.logaritmoSigmoidal(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
-		else if(funcion == 5){
-			this.salida = Activacion.tangenteSigmoidal(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
-		else if(funcion == 6){
-			this.salida = Activacion.tangenteHiperbolica(Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
-		}
+	public void calcularSalida(byte funcion, double[] entrada){
+		this.salida = Funcion.activacion(funcion, Propagacion.sumaPonderada(this.umbral, entrada, this.pesos));
 	}
 }

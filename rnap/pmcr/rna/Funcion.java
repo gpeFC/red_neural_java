@@ -48,13 +48,13 @@ public final class Funcion{
 	public static double derivada(byte funcion, double potencial){
 		double derivada=0.0;
 		if(funcion == 1){		/** Derivada 'Logaritmo Sigmoidal' */
-			derivada = Funcion.activacion((byte)4, potencial) * (1 - Activacion.logaritmoSigmoidal(potencial));
+			derivada = Funcion.activacion((byte)4, potencial) * (1 - Funcion.activacion((byte)4, potencial));
 		}
 		else if(funcion == 2){	/** Derivada 'Tangente Sigmoidal' */
 			derivada = (2*(Math.pow(Math.E, -potencial))) / Math.pow((1.0 + (Math.pow(Math.E, -potencial))), 2);
 		}
 		else if(funcion == 3){	/** Derivada 'Tangente Hiperbolica' */
-			derivada = 1 - Math.pow(Activacion.tangenteHiperbolica(potencial), 2);
+			derivada = 1 - Math.pow(Funcion.activacion((byte)6, potencial), 2);
 		}
 		return derivada;
 	}

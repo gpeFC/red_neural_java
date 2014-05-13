@@ -20,7 +20,7 @@ public class CapaNeuronal{
 	private Perceptron[] neuronas;	// Neuronas de la capa.
 
 	/** Constructor para inicializar el objeto 'capa neuronal'. */
-	public CapaNeuronal(int numNeurs, int numArgs, double alpha){
+	public CapaNeuronal(int numNeurs, int numArgs){
 		this.entrada = new double[numArgs];
 		for(int i=0; i<numArgs; i++){
 			this.entrada[i] = 0.0;
@@ -33,8 +33,13 @@ public class CapaNeuronal{
 			this.funciones[i] = 0;
 			this.salidas[i] = 0.0;
 			this.delthas[i] = 0.0;
-			this.neuronas[i] = new Perceptron(numArgs, alpha);
+			this.neuronas[i] = new Perceptron(numArgs);
 		}
+	}
+
+	public void establecerAlphas(double alpha){
+		for(int i=0; i<this.neuronas.length; i++)
+			this.neuronas[i].establecerAlpha(alpha);
 	}
 
 	public void establecerEntrada(double[] entrada){
@@ -54,19 +59,30 @@ public class CapaNeuronal{
 	}
 
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
-	public void actualizarUmbrales(double alpha){
+	public void actualizarUmbrales(double error){
 		for(int i=0; i<this.neuronas.length; i++)
-			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + (-alpha*this.delthas[i]));
+			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + (this.neuronas[i].obtenerUmbral()*error));
+	}
+
+	public void actualizarPesos(double error){
+		double[] pesosAnteriores;
+		double[] pesosNuevos = new double[this.entrada.length];
+		for(int i=0; i<this.neuronas.length; i++){
+			pesosAnteriores = this.neuronas[i].obtenerPesos();
+			for(int j=0; j<this.entrada.length; j++)
+				pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha()*error*this.entrada[j]);
+			this.neuronas[i].establecerPesos(pesosNuevos);
+		}
 	}
 
 	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa. */
-	public void actualizarPesos(double alpha){
+	public void actualizarPesos(){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entrada.length];
 		for(int i=0; i<this.neuronas.length; i++){
 			pesosAnteriores = this.neuronas[i].obtenerPesos();
 			for(int j=0; j<this.entrada.length; i++)
-				pesosNuevos[j] = pesosAnteriores[j] + (-alpha * this.delthas[j] * this.entrada[j]);
+				pesosNuevos[j] = pesosAnteriores[j] + (this.delthas[j] * this.entrada[j]);
 			this.neuronas[i].establecerPesos(pesosNuevos);
 		}
 	}
@@ -82,6 +98,7 @@ public class CapaNeuronal{
 	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
 	public void calcularDelthas(double errorDelta){
 		for(int i=0; i<this.neuronas.length; i++){
+			/*
 			if(this.funciones[i] == 1){
 				this.delthas[i] = errorDelta * Derivada.logaritmoSigmoidal(Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entrada, this.neuronas[i].obtenerPesos()));
 			}
@@ -91,6 +108,7 @@ public class CapaNeuronal{
 			else if(this.funciones[i] == 3){
 				this.delthas[i] = errorDelta * Derivada.tangenteHiperbolica(Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entrada, this.neuronas[i].obtenerPesos()));
 			}
+			*/
 		}
 	}
 }

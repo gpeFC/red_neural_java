@@ -19,7 +19,13 @@ public class RedNeuronal{
 	private ArrayList<CapaNeuronal> capasNeuronales;
 
 	public RedNeuronal(){
-		this.capasNeuronales = new ArrayList<CapaNeuronal>();
+		this.epocas = 0;
+		do{
+			this.alpha = (Math.random()*10 + 1)/10.0;
+		}while(this.alpha == 0.0);
+		this.errorMinimo = 0.0;
+		this.errorCalculado = 0.0;
+		this.capasNeuronales = new ArrayList<CapaNeuronal>(1);
 	}
 
 	public RedNeuronal(int epocas, int numPatrs, int numArgs, int numCapas, int[] numNeursCapa){
