@@ -19,7 +19,6 @@ public class RNAP{
 		boolean fin;
 		double alpha=0.0, salidas[], entradas[][];
 		Scanner entrada = new Scanner(System.in);
-		Entrenamiento algoritmo;
 
 		do{
 			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
@@ -61,8 +60,13 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				if(funcion == 1){
-				}
+				if(funcion == 1)
+					for(int i=0; i<numNeuronas; i++)
+						funcionCapa[i] = 2;
+				else if(funcion == 2)
+					for(int i=0; i<numNeuronas; i++)
+						funcionCapa[i] = 3;
+
 				do{
 					try{
 						System.out.printf("\nNumero de patrones de entrenamiento: ");
@@ -85,7 +89,7 @@ public class RNAP{
 				}while(true);
 
 				perceptron = new CapaNeuronal(numNeuronas, numArgumentos);
-				perceptron.establecerFuncionActivacion(funcionCapa);
+				perceptron.establecerFunciones(funcionCapa);
 
 				salidas = new double[numPatrones];
 				entradas = new double[numPatrones][numArgumentos];
@@ -115,9 +119,8 @@ public class RNAP{
 						}
 					}while(true);	
 				}
-				algoritmo = new Entrenamiento(salidas, entradas);
 				System.out.printf("\nInicio del entrenamiento...\n");
-				algoritmo.perceptronSimple(perceptron, numNeuronas);
+				Entrenamiento.perceptronSimple(salidas, entradas, perceptron);
 				System.out.printf("\nFin del entrenamiento...\n");
 
 			}/*

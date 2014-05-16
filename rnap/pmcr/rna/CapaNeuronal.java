@@ -37,17 +37,27 @@ public class CapaNeuronal{
 		}
 	}
 
-	public void establecerAlphas(double alpha){
-		for(int i=0; i<this.neuronas.length; i++)
-			this.neuronas[i].establecerAlpha(alpha);
+	public void establecerFunciones(byte[] funciones){
+		this.funciones = funciones;
 	}
 
 	public void establecerEntrada(double[] entrada){
 		this.entrada = entrada;
 	}
 
-	public void establecerFuncionActivacion(byte[] funciones){
-		this.funciones = funciones;
+	public void establecerAlphas(){
+		double alpha=0.0;
+		for(int i=0; i<this.neuronas.length; i++){
+			do{
+				alpha = (Math.random()*10 + 1)/10.0;
+			}while(alpha == 0.0);
+			this.neuronas[i].establecerAlpha(alpha);
+		}
+	}
+
+	public void establecerAlphas(double alpha){
+		for(int i=0; i<this.neuronas.length; i++)
+			this.neuronas[i].establecerAlpha(alpha);
 	}
 
 	public double[] obtenerSalidas(){
@@ -60,8 +70,10 @@ public class CapaNeuronal{
 
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
 	public void actualizarUmbrales(double error){
-		for(int i=0; i<this.neuronas.length; i++)
-			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + (this.neuronas[i].obtenerUmbral()*error));
+		for(int i=0; i<this.neuronas.length; i++){
+			System.out.printf("\nUmbral(%f) + Error(%f) :=> Umbral(%f)...\n", this.neuronas[i].obtenerUmbral(), error, (this.neuronas[i].obtenerUmbral() + error));
+			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + error);
+		}
 	}
 
 	public void actualizarPesos(double error){
@@ -98,17 +110,20 @@ public class CapaNeuronal{
 	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
 	public void calcularDelthas(double errorDelta){
 		for(int i=0; i<this.neuronas.length; i++){
-			/*
-			if(this.funciones[i] == 1){
-				this.delthas[i] = errorDelta * Derivada.logaritmoSigmoidal(Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entrada, this.neuronas[i].obtenerPesos()));
-			}
-			else if(this.funciones[i] == 2){
-				this.delthas[i] = errorDelta * Derivada.tangenteSigmoidal(Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entrada, this.neuronas[i].obtenerPesos()));
-			}
-			else if(this.funciones[i] == 3){
-				this.delthas[i] = errorDelta * Derivada.tangenteHiperbolica(Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entrada, this.neuronas[i].obtenerPesos()));
-			}
-			*/
+		}
+	}
+
+	public void imprimirDatos(){
+		double[] pesos;
+		for(int i=0; i<neuronas.length; i++){
+			System.out.printf("\nNeurona: %d", i);
+			System.out.printf("\n\tAlpha: %f", neuronas[i].obtenerAlpha());
+			System.out.printf("\n\tUmbral: %f", neuronas[i].obtenerUmbral());
+			System.out.printf("\n\tSalida: %f", neuronas[i].obtenerSalida());
+			pesos = neuronas[i].obtenerPesos();
+			System.out.printf("\n");
+			for(int j=0; j<pesos.length; j++)
+				System.out.printf("%f ", pesos[j]);
 		}
 	}
 }

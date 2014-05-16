@@ -10,6 +10,7 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
+	/*
 	private int epocas;
 	private double alpha;
 	private double errorMinimo;
@@ -158,4 +159,5 @@ public class RedNeuronal{
 			capaActual.actualizarPesos(this.alpha);
 		}
 	}
+	*/
 }
