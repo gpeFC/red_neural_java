@@ -58,33 +58,6 @@ public final class Entrenamiento{
 			seguir = entrada.nextInt();
 			epocas++;
 		}
-		/*
-		do{
-			System.out.printf("\nEpoca: %d", epocas);
-			perceptron.imprimirDatos();
-			fin = false;
-			for(int i=0; i<entradasPatrones.length; i++){
-				error = 0.0;
-				perceptron.establecerEntrada(entradasPatrones[i]);
-				perceptron.calcularSalidas();
-				salidas = perceptron.obtenerSalidas();
-				for(int j=0; j<salidas.length; j++)
-					if(salidas[j] != salidasPatrones[i])
-						error = error + (salidasPatrones[i] - salidas[j]);
-				error = error / (double)salidas.length;
-				if(error != 0.0){
-					System.out.printf("\nPatron(%d)-Error: %f\n", i, error);
-					fin = true;
-					perceptron.actualizarUmbrales(error);
-					perceptron.actualizarPesos(error);
-				}
-				else{
-				}
-				seguir = entrada.nextInt();
-			}
-			epocas++;
-		}while(fin);
-		*/
 	}
 
 	public void algoritmoRetropropagacion(){}

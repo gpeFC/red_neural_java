@@ -71,7 +71,6 @@ public class CapaNeuronal{
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
 	public void actualizarUmbrales(double error){
 		for(int i=0; i<this.neuronas.length; i++){
-			System.out.printf("\nUmbral(%f) + Error(%f) :=> Umbral(%f)...\n", this.neuronas[i].obtenerUmbral(), error, (this.neuronas[i].obtenerUmbral() + error));
 			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + error);
 		}
 	}
@@ -121,7 +120,7 @@ public class CapaNeuronal{
 			System.out.printf("\n\tUmbral: %f", neuronas[i].obtenerUmbral());
 			System.out.printf("\n\tSalida: %f", neuronas[i].obtenerSalida());
 			pesos = neuronas[i].obtenerPesos();
-			System.out.printf("\n");
+			System.out.printf("\n\tPesos: ");
 			for(int j=0; j<pesos.length; j++)
 				System.out.printf("%f ", pesos[j]);
 		}
