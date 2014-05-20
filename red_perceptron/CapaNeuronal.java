@@ -45,6 +45,11 @@ public class CapaNeuronal{
 		this.entrada = entrada;
 	}
 
+	public void establecerAlphas(double alpha){
+		for(int i=0; i<this.neuronas.length; i++)
+			this.neuronas[i].establecerAlpha(alpha);
+	}
+
 	public void establecerAlphas(){
 		double alpha=0.0;
 		for(int i=0; i<this.neuronas.length; i++){
@@ -53,11 +58,6 @@ public class CapaNeuronal{
 			}while(alpha == 0.0);
 			this.neuronas[i].establecerAlpha(alpha);
 		}
-	}
-
-	public void establecerAlphas(double alpha){
-		for(int i=0; i<this.neuronas.length; i++)
-			this.neuronas[i].establecerAlpha(alpha);
 	}
 
 	public double[] obtenerSalidas(){
@@ -69,21 +69,17 @@ public class CapaNeuronal{
 	}
 
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
-	public void actualizarUmbrales(double error){
-		for(int i=0; i<this.neuronas.length; i++){
-			this.neuronas[i].establecerUmbral(this.neuronas[i].obtenerUmbral() + error);
-		}
+	public void actualizarUmbrales(int indice, double error){
+		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (this.neuronas[indice].obtenerAlpha()*error));
 	}
 
-	public void actualizarPesos(double error){
+	public void actualizarPesos(int indice, double error){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entrada.length];
-		for(int i=0; i<this.neuronas.length; i++){
-			pesosAnteriores = this.neuronas[i].obtenerPesos();
-			for(int j=0; j<this.entrada.length; j++)
-				pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha()*error*this.entrada[j]);
-			this.neuronas[i].establecerPesos(pesosNuevos);
-		}
+		pesosAnteriores = this.neuronas[indice].obtenerPesos();
+		for(int j=0; j<this.entrada.length; j++)
+			pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[indice].obtenerAlpha()*error*this.entrada[j]);
+		this.neuronas[indice].establecerPesos(pesosNuevos);
 	}
 
 	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa. */
@@ -116,13 +112,13 @@ public class CapaNeuronal{
 		double[] pesos;
 		for(int i=0; i<neuronas.length; i++){
 			System.out.printf("\nNeurona: %d", i);
-			System.out.printf("\n\tAlpha: %f", neuronas[i].obtenerAlpha());
-			System.out.printf("\n\tUmbral: %f", neuronas[i].obtenerUmbral());
-			System.out.printf("\n\tSalida: %f", neuronas[i].obtenerSalida());
+			System.out.printf("\n  Alpha: %f", neuronas[i].obtenerAlpha());
+			System.out.printf("\n  Umbral: %f", neuronas[i].obtenerUmbral());
+			System.out.printf("\n  Salida: %f", neuronas[i].obtenerSalida());
 			pesos = neuronas[i].obtenerPesos();
-			System.out.printf("\n\tPesos: ");
+			System.out.printf("\n  Pesos: ");
 			for(int j=0; j<pesos.length; j++)
-				System.out.printf("%f ", pesos[j]);
+				System.out.printf("{%f}", pesos[j]);
 		}
 	}
 }

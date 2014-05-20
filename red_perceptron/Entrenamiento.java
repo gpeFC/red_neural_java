@@ -8,6 +8,7 @@
 // Clase: Entrenamiento
 
 import java.util.Scanner;
+import java.util.Random;
 
 /**
 * Clase definida para crear objetos 'entrenamiento' que aplica el algoritmo de 
@@ -27,10 +28,12 @@ public final class Entrenamiento{
 		double error, alpha=0.0, salidas[];
 		boolean fin = true;
 		Scanner entrada = new Scanner(System.in);
+		Random aleatorio = new Random();
 		salidas = new double[salidasPatrones.length];
 		do{
-			alpha = (Math.random()*10 + 1)/10.0;
+			alpha = aleatorio.nextDouble();
 		}while(alpha == 0.0);
+
 		perceptron.establecerAlphas(alpha);
 
 		while(fin){
@@ -40,16 +43,13 @@ public final class Entrenamiento{
 				perceptron.establecerEntrada(entradasPatrones[i]);
 				perceptron.calcularSalidas();
 				salidas = perceptron.obtenerSalidas();
-				for(int j=0; j<salidas.length; j++)
-					if(salidas[j] != salidasPatrones[i])
-						error = error + (salidasPatrones[i] - salidas[j]);
-				System.out.printf("\nError: %f", error);
-				error = error / (double)salidas.length;
-				System.out.printf("\nError actual: %f", error);
-				if(error != 0.0){
-					fin = true;
-					perceptron.actualizarUmbrales(error);
-					perceptron.actualizarPesos(error);
+				for(int j=0; j<salidas.length; j++){
+					if(salidas[j] != salidasPatrones[i]){
+						error = salidasPatrones[i] - salidas[j];
+						perceptron.actualizarUmbrales(j, error);
+						perceptron.actualizarPesos(j, error);
+						fin = true;
+					}
 				}
 			}
 			System.out.printf("\nEpoca: %d", epocas);
