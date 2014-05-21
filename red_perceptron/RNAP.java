@@ -346,7 +346,12 @@ public class RNAP{
 					}
 				}while(true);
 
-				perceptron = new ArrayList<CapaNeuronal>(numCapas);}/*
+				perceptron = new ArrayList<CapaNeuronal>(numCapas);
+				for(int i=0; i<numCapas; i++){
+					CapaNeuronal capaNeuronal = new CapaNeuronal(numNeuronasCapa[i], numArgumentos);
+					perceptron.add(capaNeuronal);
+				}
+				}/*
 				perceptron = new RedNeuronal(epocas, numPatrones, numArgumentos, numCapas, numNeuronasCapa);
 				System.out.printf("\nEpocas(%d), Error(%d), NumPatrs(%d), NumArgs(%d), NumCapas(%d).", 
 								  epocas, error, numPatrones, numArgumentos, numCapas);
