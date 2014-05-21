@@ -7,8 +7,9 @@
 
 // Clase: Entrenamiento
 
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
 * Clase definida para crear objetos 'entrenamiento' que aplica el algoritmo de 
@@ -33,14 +34,11 @@ public final class Entrenamiento{
 		do{
 			alpha = aleatorio.nextDouble();
 		}while(alpha == 0.0);
-
 		perceptron.establecerAlphas(alpha);
-
 		System.out.printf("\nAntes de Entrenar...");
 		perceptron.imprimirDatos();
 		System.out.printf("\n\n");
 		seguir = entrada.nextInt();
-
 		while(fin){
 			fin = false;
 			for(int i=0; i<entradasPatrones.length; i++){
@@ -61,12 +59,11 @@ public final class Entrenamiento{
 			System.out.printf("\nEpoca: %d", epocas);
 			perceptron.imprimirDatos();
 			System.out.printf("\n\n");
-			seguir = entrada.nextInt();
 			epocas++;
 		}
 	}
 
-	public void algoritmoRetropropagacion(){}
+	public void algoritmoRetropropagacion(ArrayList<CapaNeuronal> perceptron){}
 
 	public void algoritmoMomento(){}
 

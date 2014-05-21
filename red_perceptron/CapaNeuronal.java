@@ -78,9 +78,11 @@ public class CapaNeuronal{
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entrada.length];
 		pesosAnteriores = this.neuronas[indice].obtenerPesos();
-		for(int j=0; j<this.entrada.length; j++)
-			pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[indice].obtenerAlpha()*error*this.entrada[j]);
-		this.neuronas[indice].establecerPesos(pesosNuevos);
+		for(int i=0; i<this.entrada.length; i++){
+			pesosNuevos[i] = this.neuronas[indice].obtenerAlpha() * error * this.entrada[i];
+			pesosAnteriores[i] = pesosAnteriores[i] + pesosNuevos[i];
+		}
+		this.neuronas[indice].establecerPesos(pesosAnteriores);
 	}
 
 	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa. */

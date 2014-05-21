@@ -71,11 +71,11 @@ public class Perceptron{
 		if(salida > 0.0)
 			this.salida = 1.0;
 		else
-			this.salida = -1.0;
+			this.salida = 0.0;
 	}
 
 	public void actualizarBias(){
-		this.bias = this.bias + this.error;
+		this.bias = this.bias + (this.error*this.epsilon);
 	}
 
 	public void actualizarPesos(int indice, double[][] entradas){	// Regla para actualizar los pesos sinapticos.

@@ -19,7 +19,7 @@ public final class Propagacion{
 		for(int i=0; i<pesos.length; i++){
 			potencial = potencial + (pesos[i] * entrada[i]);
 		}
-		potencial = potencial - umbral;
+		potencial = potencial + umbral;
 		return potencial;
 	}
 }
