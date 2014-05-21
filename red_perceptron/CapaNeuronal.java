@@ -70,6 +70,7 @@ public class CapaNeuronal{
 
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
 	public void actualizarUmbrales(int indice, double error){
+		System.out.printf("\nUmbra: (%f) := (%f) + (%f)*(%f)\n", (this.neuronas[indice].obtenerUmbral() + (this.neuronas[indice].obtenerAlpha()*error)), this.neuronas[indice].obtenerUmbral(), this.neuronas[indice].obtenerAlpha(), error);
 		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (this.neuronas[indice].obtenerAlpha()*error));
 	}
 

@@ -120,7 +120,7 @@ public class RNAP{
 					}while(true);	
 				}
 				System.out.printf("\nInicio del entrenamiento...\n");
-				Entrenamiento.perceptronSimple(salidas, entradas, perceptron);
+				Entrenamiento.algoritmoPerceptron(salidas, entradas, perceptron);
 				System.out.printf("\nFin del entrenamiento...\n");
 
 			}/*

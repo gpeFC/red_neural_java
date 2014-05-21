@@ -36,6 +36,11 @@ public final class Entrenamiento{
 
 		perceptron.establecerAlphas(alpha);
 
+		System.out.printf("\nAntes de Entrenar...");
+		perceptron.imprimirDatos();
+		System.out.printf("\n\n");
+		seguir = entrada.nextInt();
+
 		while(fin){
 			fin = false;
 			for(int i=0; i<entradasPatrones.length; i++){
@@ -46,6 +51,7 @@ public final class Entrenamiento{
 				for(int j=0; j<salidas.length; j++){
 					if(salidas[j] != salidasPatrones[i]){
 						error = salidasPatrones[i] - salidas[j];
+						System.out.printf("\nError actual(%d): (%f) - (%f) := (%f)\n", i, salidasPatrones[i], salidas[j], error);
 						perceptron.actualizarUmbrales(j, error);
 						perceptron.actualizarPesos(j, error);
 						fin = true;
