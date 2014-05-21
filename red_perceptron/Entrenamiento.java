@@ -23,7 +23,7 @@ public final class Entrenamiento{
 	private double[] salidasPatrones;
 	private double[][] entradasPatrones;
 
-	public static void perceptronSimple(double[] salidasPatrones, double[][] entradasPatrones, CapaNeuronal perceptron){
+	public static void algoritmoPerceptron(double[] salidasPatrones, double[][] entradasPatrones, CapaNeuronal perceptron){
 		int epocas=0, seguir=0;
 		double error, alpha=0.0, salidas[];
 		boolean fin = true;
