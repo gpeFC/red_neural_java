@@ -63,7 +63,22 @@ public final class Entrenamiento{
 		}
 	}
 
-	public void algoritmoRetropropagacion(ArrayList<CapaNeuronal> perceptron){}
+	public static void algoritmoRetropropagacion(int epocas, double error, double[] salidasPatrones, double[][] entradasPatrones, ArrayList<CapaNeuronal> perceptron){
+		double salidas[];
+		Scanner entrada = new Scanner(System.in);
+		salidas = new double[salidasPatrones.length];
+		if(epocas>0 && error==0.0){
+			CapaNeuronal capa;
+			for(int i=0; i<epocas; i++){
+				for(int j=0; j<perceptron.size(); j++){
+					capa = perceptron.get(j);
+					capa.calcularSalidas();
+				}
+			}
+		}
+		else if(epocas==0 && error>0.0){}
+		else if(epocas>0 && error>0.0){}
+	}
 
 	public void algoritmoMomento(){}
 
