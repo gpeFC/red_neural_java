@@ -14,7 +14,8 @@ import java.util.InputMismatchException;
 public class RNAP{
 	public static void main(String[] args){
 		int opcion, numCapas=0, numPatrones=0, numArgumentos=0, red, epocas=0, error=0;
-		int finRed, config=0, configActivacion=0, configAlpha=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;;
+		int finRed, configActivacion=0, configAlpha=0, numNeuronas=0;
+		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0;
 		byte[] funcionCapa, numNeuronasCapa;
 		boolean fin;
 		double alpha=0.0, salidas[], entradas[][];
@@ -53,7 +54,7 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tFuncion de activacion a utilizar: ");
-						funcion = entrada.nextInt();
+						funcion = entrada.nextByte();
 						break;
 					}
 					catch(InputMismatchException excepcion){
@@ -195,7 +196,7 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tConfiguracion: ");
-						config = entrada.nextInt();
+						config = entrada.nextByte();
 						break;
 					}
 					catch(InputMismatchException excepcion){
@@ -238,7 +239,7 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tConfiguracion: ");
-						config = entrada.nextInt();
+						config = entrada.nextByte();
 						break;
 					}
 					catch(InputMismatchException excepcion){
@@ -253,19 +254,27 @@ public class RNAP{
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar: ");
-							funcion = entrada.nextInt();
+							funcion = entrada.nextByte();
 							break;
 						}
 						catch(InputMismatchException excepcion){
 							entrada.nextLine();
 						}
 					}while(true);
+					CapaNeuronal capa;
+					for(int i=0; i<numCapas; i++){
+						capa = perceptron.get(i);
+						funcionCapa = new byte[numNeuronasCapa[i]];
+						for(int j=0; j<numNeuronasCapa[i]; j++)
+							funcionCapa[j] = funcion;
+						capa.establecerFunciones(funcionCapa);
+					}
 				}
 				else if(configActivacion == 2){
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar para la capa de salida: ");
-							funcionSalida = entrada.nextInt();
+							funcionSalida = entrada.nextByte();
 							break;
 						}
 						catch(InputMismatchException excepcion){
@@ -275,15 +284,31 @@ public class RNAP{
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar para las capas ocultas: ");
-							funcionOcultas = entrada.nextInt();
+							funcionOcultas = entrada.nextByte();
 							break;
 						}
 						catch(InputMismatchException excepcion){
 							entrada.nextLine();
 						}
 					}while(true);
+					CapaNeuronal capa;
+					for(int i=0; i<numCapas; i++){
+						capa = perceptron.get(i);
+						funcionCapa = new byte[numNeuronasCapa[i]];
+						if(i == numCapas-1){
+							for(int j=0; j<numNeuronasCapa[i]; j++)
+								funcionCapa[j] = funcionSalida;
+							capa.establecerFunciones(funcionCapa);
+						}
+						else{
+							for(int j=0; j<numNeuronasCapa[i]; j++)
+								funcionCapa[j] = funcionOcultas;
+							capa.establecerFunciones(funcionCapa);
+						}
+					}
 				}
 				else if(configActivacion == 3){
+					CapaNeuronal capa;
 					for(int i=0; i<numCapas; i++){
 						if(i == numCapas-1){
 							do{
