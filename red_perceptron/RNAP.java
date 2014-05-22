@@ -14,7 +14,7 @@ import java.util.InputMismatchException;
 public class RNAP{
 	public static void main(String[] args){
 		int opcion, numCapas=0, numPatrones=0, numArgumentos=0, red, epocas=0, error=0;
-		int finRed, config=0, configAlpha=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;;
+		int finRed, config=0, configActivacion=0, configAlpha=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;;
 		byte[] funcionCapa, numNeuronasCapa;
 		boolean fin;
 		double alpha=0.0, salidas[], entradas[][];
@@ -161,6 +161,33 @@ public class RNAP{
 				}
 				funcionCapa = new byte[numCapas];
 
+				do{
+					try{
+						System.out.printf("\nNumero de patrones de entrenamiento: ");
+						numPatrones = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+				do{
+					try{
+						System.out.printf("\nNumero de valores por patron: ");
+						numArgumentos = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+
+				perceptron = new ArrayList<CapaNeuronal>(numCapas);
+				for(int i=0; i<numCapas; i++){
+					CapaNeuronal capaNeuronal = new CapaNeuronal(numNeuronasCapa[i], numArgumentos);
+					perceptron.add(capaNeuronal);
+				}
+
 				System.out.printf("\nIndique la configuracion para la tasa de aprendizaje de la red.\n");
 				System.out.println("1) Una misma tasa de aprendizaje para toda la red.");
 				System.out.println("2) Una tasa de aprendizaje distinta por capa.");
@@ -175,6 +202,8 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
+
+
 				System.out.printf("\nIndique la configuracion para las funciones de activacion.\n");
 				System.out.println("1) Una misma funcion de activacion para toda la red.");
 				System.out.println("2) Una funcion de activacion para la capa de salida y otra para las capas ocultas.");
@@ -183,7 +212,7 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tConfiguracion: ");
-						config = entrada.nextInt();
+						configActivacion = entrada.nextInt();
 						break;
 					}
 					catch(InputMismatchException excepcion){
@@ -194,7 +223,7 @@ public class RNAP{
 				System.out.println("2) Logaritmo Sigmoidal.");
 				System.out.println("3) Tangente Sigmoidal.");
 				System.out.println("4) Tangente Hiperbolica.");
-				if(config == 1){
+				if(configActivacion == 1){
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar: ");
@@ -206,7 +235,7 @@ public class RNAP{
 						}
 					}while(true);
 				}
-				else if(config == 2){
+				else if(configActivacion == 2){
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar para la capa de salida: ");
@@ -228,7 +257,7 @@ public class RNAP{
 						}
 					}while(true);
 				}
-				else if(config == 3){
+				else if(configActivacion == 3){
 					for(int i=0; i<numCapas; i++){
 						if(i == numCapas-1){
 							do{
@@ -256,7 +285,7 @@ public class RNAP{
 						}
 					}
 				}
-				else if(config == 4){}
+				else if(configActivacion == 4){}
 
 				System.out.printf("\nIndique la(s) condicion(es) para finalizar el entrenamiento de la red.\n");
 				System.out.println("1) Establecer un numero maxmimo de epocas(iteraciones) de entrenamiento.");
@@ -325,42 +354,16 @@ public class RNAP{
 					
 				}
 
-				do{
-					try{
-						System.out.printf("\nNumero de patrones de entrenamiento: ");
-						numPatrones = entrada.nextInt();
-						break;
-					}
-					catch(InputMismatchException excepcion){
-						entrada.nextLine();
-					}
-				}while(true);
-				do{
-					try{
-						System.out.printf("\nNumero de valores por patron: ");
-						numArgumentos = entrada.nextInt();
-						break;
-					}
-					catch(InputMismatchException excepcion){
-						entrada.nextLine();
-					}
-				}while(true);
-
-				perceptron = new ArrayList<CapaNeuronal>(numCapas);
-				for(int i=0; i<numCapas; i++){
-					CapaNeuronal capaNeuronal = new CapaNeuronal(numNeuronasCapa[i], numArgumentos);
-					perceptron.add(capaNeuronal);
-				}
 				}/*
 				perceptron = new RedNeuronal(epocas, numPatrones, numArgumentos, numCapas, numNeuronasCapa);
 				System.out.printf("\nEpocas(%d), Error(%d), NumPatrs(%d), NumArgs(%d), NumCapas(%d).", 
 								  epocas, error, numPatrones, numArgumentos, numCapas);
 
-				if(config == 1)
+				if(configActivacion == 1)
 					perceptron.establecerConfiguracionActivacion(funcion, numNeuronasCapa);
-				else if(config == 2)
+				else if(configActivacion == 2)
 					perceptron.establecerConfiguracionActivacion(funcionSalida, funcionOcultas, numNeuronasCapa);
-				else if(config == 3)
+				else if(configActivacion == 3)
 					perceptron.establecerConfiguracionActivacion(funcionCapa, numNeuronasCapa);
 
 				System.out.printf("\nEstablecer patrones Entrada-Salida para el entrenamiento.\n");
