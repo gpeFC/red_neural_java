@@ -195,14 +195,40 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tConfiguracion: ");
-						configAlpha = entrada.nextInt();
+						config = entrada.nextInt();
 						break;
 					}
 					catch(InputMismatchException excepcion){
 						entrada.nextLine();
 					}
 				}while(true);
-
+				if(config == 1){
+					do{
+						alpha = (Math.random()*10 + 1)/10.0;
+					}while(alpha == 0.0);
+					CapaNeuronal capa;
+					for(int i=0; i<numCapas; i++){
+						capa = perceptron.get(i);
+						capa.establecerAlphas(alpha);
+					}
+				}
+				else if(config == 2){
+					CapaNeuronal capa;
+					for(int i=0; i<numCapas; i++){
+						capa = perceptron.get(i);
+						do{
+							alpha = (Math.random()*10 + 1)/10.0;
+						}while(alpha == 0.0);
+						capa.establecerAlphas(alpha);
+					}
+				}
+				else if(config == 3){
+					CapaNeuronal capa;
+					for(int i=0; i<numCapas; i++){
+						capa = perceptron.get(i);
+						capa.establecerAlphas();
+					}
+				}
 
 				System.out.printf("\nIndique la configuracion para las funciones de activacion.\n");
 				System.out.println("1) Una misma funcion de activacion para toda la red.");
@@ -212,7 +238,7 @@ public class RNAP{
 				do{
 					try{
 						System.out.printf("\n\tConfiguracion: ");
-						configActivacion = entrada.nextInt();
+						config = entrada.nextInt();
 						break;
 					}
 					catch(InputMismatchException excepcion){
@@ -223,7 +249,7 @@ public class RNAP{
 				System.out.println("2) Logaritmo Sigmoidal.");
 				System.out.println("3) Tangente Sigmoidal.");
 				System.out.println("4) Tangente Hiperbolica.");
-				if(configActivacion == 1){
+				if(config == 1){
 					do{
 						try{
 							System.out.printf("\n\tFuncion de activacion a utilizar: ");
