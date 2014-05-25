@@ -13,13 +13,14 @@ import java.util.InputMismatchException;
 
 public class RNAP{
 	public static void main(String[] args){
-		int opcion, numCapas=0, numPatrones=0, numArgumentos=0, red, epocas=0;
+		int opcion, numCapas=1, numPatrones=0, numArgumentos=0, red, epocas=0;
 		int configActivacion=0, configAlpha=0, numNeuronas=0;
 		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0;
 		byte[] funcionCapa, funcionesCapa, numNeuronasCapa;
 		boolean fin;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
 		Scanner entrada = new Scanner(System.in);
+		RedNeuronal rnap;
 
 		do{
 			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
@@ -36,19 +37,18 @@ public class RNAP{
 					entrada.nextLine();
 				}
 			}while(true);
-			if(opcion == 1){
-				CapaNeuronal perceptron;
+			if(opcion == 1){ //===================================================================================================
+				numNeuronasCapa = new byte[1];
 				do{
 					try{
 						System.out.printf("\nNumero de neuronas en la capa: ");
-						numNeuronas = entrada.nextInt();
+						numNeuronasCapa[0] = entrada.nextByte();
 						break;
 					}
 					catch(InputMismatchException excepcion){
 						entrada.nextLine();
 					}
 				}while(true);
-				funcionCapa = new byte[numNeuronas];
 				System.out.println("1) Escalon Binario(Hardlim).");
 				System.out.println("2) Escalon Bipolar(Hardlims).");
 				do{
@@ -61,12 +61,6 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				if(funcion == 1)
-					for(int i=0; i<numNeuronas; i++)
-						funcionCapa[i] = 2;
-				else if(funcion == 2)
-					for(int i=0; i<numNeuronas; i++)
-						funcionCapa[i] = 3;
 				do{
 					try{
 						System.out.printf("\nNumero de patrones de entrenamiento: ");
@@ -87,8 +81,10 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				perceptron = new CapaNeuronal(numNeuronas, numArgumentos);
-				perceptron.establecerFunciones(funcionCapa);
+				rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa); 
+
+				rnap.establecerConfiguracionFunciones((byte)(funcion+1), (byte)(numNeuronasCapa[0])); 
+
 				salidas = new double[numPatrones];
 				entradas = new double[numPatrones][numArgumentos];
 				for(int i=0; i<numPatrones; i++){
@@ -116,11 +112,12 @@ public class RNAP{
 						}
 					}while(true);	
 				}
+
 				System.out.printf("\nInicio del entrenamiento...\n");
-				Entrenamiento.algoritmoPerceptron(salidas, entradas, perceptron);
+				Entrenamiento.algoritmoPerceptron(salidas, entradas, rnap);
 				System.out.printf("\nFin del entrenamiento...\n");
-			}
-			else if(opcion == 2){
+			}/*
+			else if(opcion == 2){ //===============================================================================================
 				ArrayList<CapaNeuronal> perceptron;
 				do{
 					try{
@@ -435,7 +432,7 @@ public class RNAP{
 				System.out.printf("\nInicio del entrenamiento...\n");
 				Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, perceptron);
 				System.out.printf("\nFin del entrenamiento...\n");
-			}
+			}*/
 		}while(opcion != 0);
 	}
 }
