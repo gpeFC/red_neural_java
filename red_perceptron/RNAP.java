@@ -230,7 +230,7 @@ public class RNAP{
 						}
 					}while(true);
 					rnap.establecerConfiguracionFunciones(funcion, numNeuronasCapa);
-				}}/*
+				}
 				else if(configActivacion == 2){
 					do{
 						try{
@@ -252,32 +252,16 @@ public class RNAP{
 							entrada.nextLine();
 						}
 					}while(true);
-					CapaNeuronal capa;
-					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
-						funcionCapa = new byte[numNeuronasCapa[i]];
-						if(i == numCapas-1){
-							for(int j=0; j<numNeuronasCapa[i]; j++)
-								funcionCapa[j] = funcionSalida;
-							capa.establecerFunciones(funcionCapa);
-						}
-						else{
-							for(int j=0; j<numNeuronasCapa[i]; j++)
-								funcionCapa[j] = funcionOcultas;
-							capa.establecerFunciones(funcionCapa);
-						}
-					}
+					rnap.establecerConfiguracionFunciones(funcionSalida, funcionOcultas, numNeuronasCapa);
 				}
 				else if(configActivacion == 3){
-					CapaNeuronal capa;
 					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
 						funcionesCapa = new byte[numNeuronasCapa[i]];
 						if(i == numCapas-1){
 							do{
 								try{
 									System.out.printf("\nFuncion de activacion a utilizar en la capa de salida: ");
-									funcionCapa[i] = entrada.nextByte();
+									funcion = entrada.nextByte();
 									break;
 								}
 								catch(InputMismatchException excepcion){
@@ -289,7 +273,7 @@ public class RNAP{
 							do{
 								try{
 									System.out.printf("\nFuncion de activacion a utilizar en la capa oculta [%d]: ", i);
-									funcionCapa[i] = entrada.nextByte();
+									funcion = entrada.nextByte();
 									break;
 								}
 								catch(InputMismatchException excepcion){
@@ -298,8 +282,8 @@ public class RNAP{
 							}while(true);
 						}
 						for(int j=0; j<numNeuronasCapa[i]; j++)
-							funcionesCapa[j] = funcionCapa[i];
-						capa.establecerFunciones(funcionesCapa);
+							funcionesCapa[j] = funcion;
+						rnap.establecerConfiguracionFunciones(i, funcionesCapa);
 					}
 				}
 				else if(configActivacion == 4){}
@@ -353,7 +337,6 @@ public class RNAP{
 							entrada.nextLine();
 						}
 					}while(true);
-					
 					do{
 						try{
 							System.out.printf("\nMinimo aceptable del error, en porcentaje %%: ");
@@ -366,6 +349,7 @@ public class RNAP{
 					}while(true);
 					
 				}
+				System.out.printf("\nA continuacion ingrese los datos para el entrenamiento.\n");
 				salidas = new double[numPatrones];
 				entradas = new double[numPatrones][numArgumentos];
 				for(int i=0; i<numPatrones; i++){
@@ -394,9 +378,9 @@ public class RNAP{
 					}while(true);
 				}
 				System.out.printf("\nInicio del entrenamiento...\n");
-				Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, perceptron);
+				//Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, perceptron);
 				System.out.printf("\nFin del entrenamiento...\n");
-			}*/
+			}
 		}while(opcion != 0);
 	}
 }

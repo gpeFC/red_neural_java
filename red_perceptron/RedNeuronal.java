@@ -65,11 +65,36 @@ public class RedNeuronal{
 		byte[] funciones;
 		CapaNeuronal capa;
 		for(int i=0; i<numNeursCapa.length; i++){
-			capa = perceptron.get(i);
+			capa = this.perceptron.get(i);
 			funciones = new byte[numNeursCapa[i]];
 			for(int j=0; j<numNeursCapa[i]; j++)
 				funciones[j] = funcion;
 			capa.establecerFunciones(funciones);
 		}
+	}
+
+	public void establecerConfiguracionFunciones(byte funcionSalida, byte funcionOcultas, byte[] numNeursCapa){
+		byte[] funciones;
+		CapaNeuronal capa;
+		for(int i=0; i<numNeursCapa.length; i++){
+			capa = this.perceptron.get(i);
+			funciones = new byte[numNeursCapa[i]];
+			if(i == numNeursCapa.length-1){
+				for(int j=0; j<numNeursCapa[i]; j++)
+					funciones[j] = funcionSalida;
+				capa.establecerFunciones(funciones);
+			}
+			else{
+				for(int j=0; j<numNeursCapa[i]; j++)
+					funciones[j] = funcionOcultas;
+				capa.establecerFunciones(funciones);
+			}
+		}
+	}
+
+	public void establecerConfiguracionFunciones(int indice, byte[] funciones){
+		CapaNeuronal capa;
+		capa = this.perceptron.get(indice);
+		capa.establecerFunciones(funciones);
 	}
 }
