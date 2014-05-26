@@ -111,6 +111,14 @@ public class CapaNeuronal{
 	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
 	public void calcularDelthas(double errorDelta){
 		for(int i=0; i<this.neuronas.length; i++){
+			this.delthas[i] = errorDelta * Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
+		}
+	}
+
+	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
+	public void calcularDelthas(double[] deltas){
+		for(int i=0; i<this.neuronas.length; i++){
+			this.delthas[i] = Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
 		}
 	}
 
