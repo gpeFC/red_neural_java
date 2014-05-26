@@ -81,8 +81,8 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa); 
 
+				rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa); 
 				rnap.establecerConfiguracionFunciones((byte)(funcion+1), (byte)(numNeuronasCapa[0])); 
 
 				salidas = new double[numPatrones];
@@ -116,9 +116,9 @@ public class RNAP{
 				System.out.printf("\nInicio del entrenamiento...\n");
 				Entrenamiento.algoritmoPerceptron(salidas, entradas, rnap);
 				System.out.printf("\nFin del entrenamiento...\n");
-			}/*
+			}
 			else if(opcion == 2){ //===============================================================================================
-				ArrayList<CapaNeuronal> perceptron;
+				
 				do{
 					try{
 						System.out.printf("\nNumero total de capas de la red(Ocultas y capa de salida): ");
@@ -180,11 +180,7 @@ public class RNAP{
 					}
 				}while(true);
 
-				perceptron = new ArrayList<CapaNeuronal>(numCapas);
-				for(int i=0; i<numCapas; i++){
-					CapaNeuronal capaNeuronal = new CapaNeuronal(numNeuronasCapa[i], numArgumentos);
-					perceptron.add(capaNeuronal);
-				}
+				rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa); 
 
 				System.out.printf("\nIndique la configuracion para la tasa de aprendizaje de la red.\n");
 				System.out.println("1) Una misma tasa de aprendizaje para toda la red.");
@@ -200,34 +196,9 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				if(config == 1){
-					do{
-						alpha = (Math.random()*10 + 1)/10.0;
-					}while(alpha == 0.0);
-					CapaNeuronal capa;
-					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
-						capa.establecerAlphas(alpha);
-					}
-				}
-				else if(config == 2){
-					CapaNeuronal capa;
-					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
-						do{
-							alpha = (Math.random()*10 + 1)/10.0;
-						}while(alpha == 0.0);
-						capa.establecerAlphas(alpha);
-					}
-				}
-				else if(config == 3){
-					CapaNeuronal capa;
-					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
-						capa.establecerAlphas();
-					}
-				}
 
+				rnap.establecerConfiguracionAlphas(config);
+			
 				System.out.printf("\nIndique la configuracion para las funciones de activacion.\n");
 				System.out.println("1) Una misma funcion de activacion para toda la red.");
 				System.out.println("2) Una funcion de activacion para la capa de salida y otra para las capas ocultas.");
@@ -258,15 +229,8 @@ public class RNAP{
 							entrada.nextLine();
 						}
 					}while(true);
-					CapaNeuronal capa;
-					for(int i=0; i<numCapas; i++){
-						capa = perceptron.get(i);
-						funcionCapa = new byte[numNeuronasCapa[i]];
-						for(int j=0; j<numNeuronasCapa[i]; j++)
-							funcionCapa[j] = funcion;
-						capa.establecerFunciones(funcionCapa);
-					}
-				}
+					rnap.establecerConfiguracionFunciones(funcion, numNeuronasCapa);
+				}}/*
 				else if(configActivacion == 2){
 					do{
 						try{
