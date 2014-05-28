@@ -70,17 +70,6 @@ public final class Entrenamiento{
 		Scanner entrada = new Scanner(System.in);
 		salidas = new double[salidasPatrones.length];
 		if(epocas>0 && error==0.0){
-			CapaNeuronal capa;
-			while(iteraciones < epocas){
-				for(int i=0; i<salidasPatrones.length; i++){
-					for(int j=0; j<perceptron.size(); j++){
-						capa = perceptron.get(j);
-						capa.establecerEntrada(entradasPatrones[i][j]);
-					}
-				}
-
-				iteraciones++;
-			}
 		}
 		else if(epocas==0 && error>0.0){
 		}

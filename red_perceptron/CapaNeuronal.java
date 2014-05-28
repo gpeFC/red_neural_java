@@ -17,7 +17,7 @@ public class CapaNeuronal{
 	private double[] delthas;		// Delthas calculados de cada neurona.
 	private double[] salidas;		// Salidas obtenidas de cada neurona.
 	private double[] entradas;		// Entradas para cada neurona.
-	private double[][] pesos;		// Pesos anteriores de cada neurona.
+	private double[][] incremento;	// Pesos anteriores de cada neurona.
 	private Perceptron[] neuronas;	// Neuronas de la capa.
 
 	/** Constructor para inicializar el objeto 'capa neuronal'. */
@@ -28,7 +28,7 @@ public class CapaNeuronal{
 		this.funciones = new byte[numNeurs];
 		this.delthas = new double[numNeurs];
 		this.salidas = new double[numNeurs];
-		this.pesos = new double[numNeurs][numArgs];
+		this.incremento = new double[numNeurs][numArgs];
 		this.neuronas = new Perceptron[numNeurs];
 		for(int i=0; i<numNeurs; i++){
 			this.funciones[i] = 0;
@@ -36,7 +36,7 @@ public class CapaNeuronal{
 			this.salidas[i] = 0.0;
 			this.neuronas[i] = new Perceptron(numArgs);
 			for(int j=0; j<numArgs; j++)
-				this.pesos[i][j] = 0.0;
+				this.incremento[i][j] = 0.0;
 		}
 	}
 
@@ -46,10 +46,6 @@ public class CapaNeuronal{
 
 	public void establecerEntrada(double[] entradas){
 		this.entradas = entradas;
-	}
-
-	public void establecerPesos(double[][] pesos){
-		this.pesos = pesos;
 	}
 
 	public void establecerAlphas(double alpha){
@@ -75,8 +71,19 @@ public class CapaNeuronal{
 		return this.salidas;
 	}
 
-	public double[][] obtenerPesos(){
-		return this.pesos;
+	public double[][] obtenerPesosActuales(){
+		double[][] pesos = new double[this.neuronas.length][this.entradas.length];
+		for(int i=0; i<this.neuronas.length; i++)
+			pesos[i] =this.neuronas[i].obtenerPesos();
+		return pesos;
+	}
+
+	public double[][] obtenerIncremento(){
+		return this.incremento;
+	}
+
+	public Perceptron[] obtenerNeuronas(){
+		return this.neuronas;
 	}
 
 	public void actualizarAlphas(){
@@ -105,20 +112,27 @@ public class CapaNeuronal{
 			for(int j=0; j<this.entradas.length; i++)
 				pesosNuevos[j] = pesosAnteriores[j] + (this.delthas[j] * this.entradas[j]);
 			this.neuronas[i].establecerPesos(pesosNuevos);
-		}
-	}
-
-	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
-	public void calcularDelthas(double errorDelta){
-		for(int i=0; i<this.neuronas.length; i++){
-			this.delthas[i] = errorDelta * Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
+			calcularIncremento(i, pesosAnteriores, pesosNuevos);
 		}
 	}
 
 	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
 	public void calcularDelthas(double[] deltas){
 		for(int i=0; i<this.neuronas.length; i++){
-			this.delthas[i] = Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
+			this.delthas[i] = deltas[i] * Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
+		}
+	}
+
+	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
+	public void calcularDelthas(double[] deltas, Perceptron[] neuronas){
+		double sumaDeltha, pesos[];
+		for(int i=0; i<this.neuronas.length; i++){
+			sumaDeltha = 0.0;
+			for(int j=0; j<neuronas.length; j++){
+				pesos = neuronas[j].obtenerPesos();
+				sumaDeltha = sumaDeltha + (deltas[j]*pesos[i]);
+			}
+			this.delthas[i] = Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()))*sumaDeltha;
 		}
 	}
 
@@ -128,6 +142,11 @@ public class CapaNeuronal{
 			this.neuronas[i].calcularSalida(this.funciones[i], this.entradas);
 			this.salidas[i] = this.neuronas[i].obtenerSalida();
 		}
+	}
+
+	public void calcularIncremento(int indice, double[] pesosPrevios, double[] pesosActuales){
+		for(int i=0; i<pesosPrevios.length; i++)
+			this.incremento[indice][i] = pesosPrevios[i] - pesosActuales[i];
 	}
 
 	public void imprimirDatos(){

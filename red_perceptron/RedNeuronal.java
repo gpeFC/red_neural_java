@@ -10,7 +10,7 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
-	ArrayList<CapaNeuronal> perceptron;
+	private ArrayList<CapaNeuronal> perceptron;
 
 	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa){
 		this.perceptron = new ArrayList<CapaNeuronal>(numCapas);
@@ -96,5 +96,43 @@ public class RedNeuronal{
 		CapaNeuronal capa;
 		capa = this.perceptron.get(indice);
 		capa.establecerFunciones(funciones);
+	}
+
+	public void realizarPropagacion(double[] entradas){
+		CapaNeuronal capa, previa;
+		for(int i=0; i<this.perceptron.size(); i++){
+			capa = this.perceptron.get(i);
+			if(i == 0){
+				capa.establecerEntrada(entradas);
+				capa.calcularSalidas();
+			}
+			else{
+				previa = this.perceptron.get(i-1);
+				capa.establecerEntrada(previa.obtenerSalidas());
+				capa.calcularSalidas();
+			}
+		}
+	}
+
+	public void realizarRetroPropagacion(double[] salidas){
+		double[] salidaRed, deltas;
+		Perceptron[] neuronas;
+		CapaNeuronal capa, previa;
+		for(int i=this.perceptron.size()-1; i>=0; i++){
+			capa = this.perceptron.get(i);
+			if(i == this.perceptron.size()-1){
+				salidaRed = capa.obtenerSalidas();
+				deltas = new double[salidaRed.length];
+				for(int j=0; j<salidas.length; j++)
+					deltas[j] = salidas[j] - salidaRed[j];
+				capa.calcularDelthas(deltas);
+			}
+			else{
+				previa = this.perceptron.get(i+1);
+				deltas = previa.obtenerDelthas();
+				neuronas = previa.obtenerNeuronas();
+				capa.calcularDelthas(deltas, neuronas);
+			}
+		}
 	}
 }
