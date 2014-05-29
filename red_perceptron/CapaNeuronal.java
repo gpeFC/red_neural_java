@@ -89,11 +89,20 @@ public class CapaNeuronal{
 	public void actualizarAlphas(){
 	}
 
-	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa. */
+	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa.(Perceptron Simple) */
 	public void actualizarUmbrales(int indice, double error){
-		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (this.neuronas[indice].obtenerAlpha()*error));
+		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (-1.0*this.neuronas[indice].obtenerAlpha()*error));
 	}
 
+	public void actualizarUmbrales(){
+		double umbralAnterior, umbralNuevo=0.0;
+		for(int i=0; i<this.neuronas.length; i++){
+			umbralAnterior = this.neuronas[i].obtenerUmbral();
+			umbralNuevo = umbralAnterior + (-1.0 * this.neuronas[i].obtenerAlpha() * this.delthas[i]);
+		}
+	}
+
+	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa.(Perceptron Simple) */
 	public void actualizarPesos(int indice, double error){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entradas.length];
@@ -110,7 +119,7 @@ public class CapaNeuronal{
 		for(int i=0; i<this.neuronas.length; i++){
 			pesosAnteriores = this.neuronas[i].obtenerPesos();
 			for(int j=0; j<this.entradas.length; i++)
-				pesosNuevos[j] = pesosAnteriores[j] + (this.delthas[j] * this.entradas[j]);
+				pesosNuevos[j] = pesosAnteriores[j] + (-1.0 * this.neuronas[i].obtenerAlpha() * this.delthas[j] * this.entradas[j]);
 			this.neuronas[i].establecerPesos(pesosNuevos);
 			calcularIncremento(i, pesosAnteriores, pesosNuevos);
 		}

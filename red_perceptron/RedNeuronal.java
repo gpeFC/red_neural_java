@@ -135,4 +135,13 @@ public class RedNeuronal{
 			}
 		}
 	}
+
+	public void actualizarParametrosNeuronales(){
+		CapaNeuronal capa;
+		for(int i=0; i<this.perceptron.size(); i++){
+			capa = this.perceptron.get(i);
+			capa.actualizarUmbrales();
+			capa.actualizarPesos();
+		}
+	}
 }
