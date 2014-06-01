@@ -13,15 +13,57 @@ import java.util.InputMismatchException;
 
 public class RNAP{
 	public static void main(String[] args){
-		int opcion, numCapas=1, numPatrones=0, numArgumentos=0, red, epocas=0;
-		int configActivacion=0, configAlpha=0, numNeuronas=0;
+		int opcion=0, numCapas=1, numPatrones=0, numArgumentos=0, red, epocas=0;
+		int configActivacion=0, configAlpha=0, numNeuronas=0, eco=0;
 		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0;
 		byte[] funcionCapa, funcionesCapa, numNeuronasCapa;
-		boolean fin;
+		boolean continuar=true;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
 		Scanner entrada = new Scanner(System.in);
 		RedNeuronal rnap;
+		ArrayList<RedNeuronal> redesNeuronalesPerceptron = new ArrayList<RedNeuronal>();
+		
+		while(continuar){
+			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
+			System.out.println("1) Crear perceptron.");
+			System.out.println("2) Mostrar perceptron.");
+			System.out.println("3) Aplicar perceptron.");
+			System.out.println("4) Entrenar perceptron.");
+			System.out.println("5) Modificar perceptron.");
+			System.out.println("6) Salir de la aplicacion.");
+			do{
+				try{
+					System.out.printf("\n\tTarea a realizar: ");
+					opcion = entrada.nextInt();
+					break;
+				}
+				catch(InputMismatchException excepcion){
+					entrada.nextLine();
+				}
+			}while(true);
+			if(opcion == 1){
+				System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+				eco = entrada.nextInt();
+			}
+			else if(opcion == 2){
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para mostrar.\n");
+				}
+				System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+				eco = entrada.nextInt();
+			}
+			else if(opcion == 3){
+			}
+			else if(opcion == 4){
+			}
+			else if(opcion == 5){
+			}
+			else if(opcion == 6){
+				continuar = false;
+			}
+		}
 
+		/*
 		do{
 			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
 			System.out.println("0) Salir de la aplicacion.");
@@ -382,5 +424,11 @@ public class RNAP{
 				System.out.printf("\nFin del entrenamiento...\n");
 			}
 		}while(opcion != 0);
+		*/
+	}
+
+	public static void limpiarPantalla(){
+		for(int i=0; i<100; i++)
+			System.out.println();
 	}
 }

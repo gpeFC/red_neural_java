@@ -10,9 +10,16 @@
 import java.util.ArrayList;
 
 public class RedNeuronal{
+	private String nombrePerceptron;
+	private String topologiaPerceptron;
+	private String configuracionAlphas;
+	private String configuracionFunciones;
+	private String condicionesEntrenamiento;
 	private ArrayList<CapaNeuronal> perceptron;
 
-	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa){
+	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa, String nombrePerceptron, String topologiaPerceptron){
+		this.nombrePerceptron = nombrePerceptron;
+		this.topologiaPerceptron = topologiaPerceptron;
 		this.perceptron = new ArrayList<CapaNeuronal>(numCapas);
 		for(int i=0; i<numCapas; i++){
 			CapaNeuronal capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs);
@@ -22,6 +29,12 @@ public class RedNeuronal{
 
 	public ArrayList<CapaNeuronal> obtenerPerceptron(){
 		return this.perceptron;
+	}
+
+	public void establecerDatosPerceptron(String configuracionAlphas, String configuracionFunciones, String condicionesEntrenamiento){
+		this.configuracionAlphas = configuracionAlphas;
+		this.configuracionFunciones = configuracionFunciones;
+		this.condicionesEntrenamiento = condicionesEntrenamiento;
 	}
 
 	public void establecerConfiguracionAlphas(byte indice){
