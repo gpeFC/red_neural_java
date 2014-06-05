@@ -49,14 +49,61 @@ public class RNAP{
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para mostrar.\n");
 				}
-				System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
-				eco = entrada.nextInt();
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
 			}
 			else if(opcion == 3){
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para aplicar.\n");
+				}
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
 			}
 			else if(opcion == 4){
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para entrenar.\n");
+				}
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
 			}
 			else if(opcion == 5){
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para modificar.\n");
+				}
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
 			}
 			else if(opcion == 6){
 				continuar = false;
