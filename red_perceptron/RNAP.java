@@ -19,6 +19,7 @@ public class RNAP{
 		byte[] funcionCapa, funcionesCapa, numNeuronasCapa;
 		boolean continuar=true;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
+		String nombre, topologia, configAlphas, configFunciones;
 		Scanner entrada = new Scanner(System.in);
 		RedNeuronal rnap;
 		ArrayList<RedNeuronal> redesNeuronalesPerceptron = new ArrayList<RedNeuronal>();
@@ -41,11 +42,40 @@ public class RNAP{
 					entrada.nextLine();
 				}
 			}while(true);
-			if(opcion == 1){
-				System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+			if(opcion == 1){ // CREAR PERCEPTRON ==================================================
+				System.out.println("Escribe un nombre para la red: ");
+				nombre = entrada.nextLine();
+				System.out.println();
+				System.out.println("1) Perceptron Simple.");
+				System.out.println("2) Perceptron Multicapa.");
+				do{
+					try{
+						System.out.printf("\n\tArquitectura: ");
+						opcion = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+				if(opcion == 1){ // PERCEPTRON SIMPLE =============================================
+					topologia = "PERCEPTRON SIMPLE";
+				}
+				else if(opcion == 2){ // PERCEPTRON MULTICAPA =====================================
+				}
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
 				eco = entrada.nextInt();
 			}
-			else if(opcion == 2){
+			else if(opcion == 2){ // MOSTRAR PERCEPTRON ===========================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para mostrar.\n");
 				}
@@ -60,7 +90,7 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 3){
+			else if(opcion == 3){ // APLICAR PERCEPTRON ===========================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para aplicar.\n");
 				}
@@ -75,7 +105,7 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 4){
+			else if(opcion == 4){ // ENTRENAR PERCEPTRON ==========================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para entrenar.\n");
 				}
@@ -90,7 +120,7 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 5){
+			else if(opcion == 5){ // MODIFICAR PERCEPTRON =========================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para modificar.\n");
 				}
@@ -105,7 +135,7 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 6){
+			else if(opcion == 6){ // SALIR ========================================================
 				continuar = false;
 			}
 		}
