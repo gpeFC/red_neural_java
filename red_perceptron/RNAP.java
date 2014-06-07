@@ -60,6 +60,7 @@ public class RNAP{
 				}while(true);
 				if(opcion == 1){ // PERCEPTRON SIMPLE =============================================
 					topologia = "PERCEPTRON SIMPLE";
+					topologia = "CAmbio";
 				}
 				else if(opcion == 2){ // PERCEPTRON MULTICAPA =====================================
 					topologia = "PERCEPTRON MULTICAPA";
