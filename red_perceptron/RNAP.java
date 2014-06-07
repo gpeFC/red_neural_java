@@ -62,6 +62,7 @@ public class RNAP{
 					topologia = "PERCEPTRON SIMPLE";
 				}
 				else if(opcion == 2){ // PERCEPTRON MULTICAPA =====================================
+					topologia = "PERCEPTRON MULTICAPA";
 				}
 				do{
 					try{
