@@ -63,6 +63,10 @@ public class CapaNeuronal{
 		}
 	}
 
+	public byte[] obtenerFunciones(){
+		return this.funciones;
+	}
+
 	public double[] obtenerDelthas(){
 		return this.delthas;
 	}

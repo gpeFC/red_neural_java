@@ -40,8 +40,11 @@ public class RedNeuronal{
 		return this.perceptron;
 	}
 
-	public void establecerDatosPerceptron(String configuracionAlphas, String configuracionFunciones){
+	public void establecerConfiguracionAlphas(String configuracionAlphas){
 		this.configuracionAlphas = configuracionAlphas;
+	}
+
+	public void establecerConfiguracionFunciones(String configuracionFunciones){
 		this.configuracionFunciones = configuracionFunciones;
 	}
 
