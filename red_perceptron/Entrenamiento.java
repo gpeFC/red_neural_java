@@ -29,14 +29,9 @@ public final class Entrenamiento{
 		double error, alpha=0.0, salidas[];
 		boolean fin = true;
 		Scanner entrada = new Scanner(System.in);
-		Random aleatorio = new Random();
 		ArrayList<CapaNeuronal> redNeuronal = rnap.obtenerPerceptron();
 		CapaNeuronal perceptron = redNeuronal.get(0);
 		salidas = new double[salidasPatrones.length];
-		do{
-			alpha = aleatorio.nextDouble();
-		}while(alpha == 0.0);
-		perceptron.establecerAlphas(alpha);
 		System.out.printf("\nAntes de Entrenar...");
 		perceptron.imprimirDatos();
 		System.out.printf("\n\n");

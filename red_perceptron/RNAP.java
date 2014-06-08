@@ -25,6 +25,7 @@ public class RNAP{
 		ArrayList<RedNeuronal> redesNeuronalesPerceptron = new ArrayList<RedNeuronal>();
 		
 		while(continuar){
+			limpiarPantalla();
 			System.out.printf("\n\n\tRed Neuronal Artificial Perceptron...\n\n");
 			System.out.println("1) Crear perceptron.");
 			System.out.println("2) Mostrar perceptron.");
@@ -42,27 +43,195 @@ public class RNAP{
 					entrada.nextLine();
 				}
 			}while(true);
-			if(opcion == 1){ // CREAR PERCEPTRON ==================================================
-				System.out.println("Escribe un nombre para la red: ");
+			if(opcion == 1){ // CREAR PERCEPTRON ================================================================================
+				System.out.printf("\nEscribe un nombre para la red: ");
+				entrada.nextLine();
 				nombre = entrada.nextLine();
+				nombre = nombre.toUpperCase();
 				System.out.println();
-				System.out.println("1) Perceptron Simple.");
-				System.out.println("2) Perceptron Multicapa.");
-				do{
-					try{
-						System.out.printf("\n\tArquitectura: ");
-						opcion = entrada.nextInt();
-						break;
-					}
-					catch(InputMismatchException excepcion){
-						entrada.nextLine();
-					}
-				}while(true);
-				if(opcion == 1){ // PERCEPTRON SIMPLE =============================================
-					topologia = "PERCEPTRON SIMPLE";
+				opcion = 0;
+				while(opcion<1 || opcion>2){
+					System.out.println("1) Perceptron Simple.");
+					System.out.println("2) Perceptron Multicapa.");
+					do{
+						try{
+							System.out.printf("\n\tArquitectura: ");
+							opcion = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
 				}
-				else if(opcion == 2){ // PERCEPTRON MULTICAPA =====================================
-					topologia = "PERCEPTRON MULTICAPA";
+				if(opcion == 1){ // PERCEPTRON SIMPLE -----------------------------------------------------------------
+					topologia = "SIMPLE";
+					configAlphas = "TDA/RED";
+					configFunciones = "FUNCION/RED";
+					numNeuronasCapa = new byte[1];
+					do{
+						try{
+							System.out.printf("\nNumero de neuronas: ");
+							numNeuronasCapa[0] = entrada.nextByte();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					System.out.println();
+					System.out.println("1) Escalon Binario(Hardlim).");
+					System.out.println("2) Escalon Bipolar(Hardlims).");
+					do{
+						try{
+							System.out.printf("\n\tFuncion de activacion: ");
+							funcion = entrada.nextByte();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					do{
+						try{
+							System.out.printf("\nNumero de patrones de entrenamiento: ");
+							numPatrones = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					do{
+						try{
+							System.out.printf("\nNumero de argumentos por patron: ");
+							numArgumentos = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+
+					rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa, nombre, topologia);
+					rnap.establecerDatosPerceptron(configAlphas, configFunciones);
+					rnap.establecerConfiguracionAlphas((byte)1);
+					rnap.establecerConfiguracionFunciones((byte)(funcion+1), (byte)(numNeuronasCapa[0]));
+					redesNeuronalesPerceptron.add(rnap);
+
+					salidas = new double[numPatrones];
+					entradas = new double[numPatrones][numArgumentos];
+					for(int i=0; i<numPatrones; i++){
+						for(int j=0; j<numArgumentos; j++){
+							do{
+								try{
+									System.out.printf("\nPatron[%d]->Valor[%d]: ", i, j);
+									entradas[i][j] = (double)(entrada.nextDouble());
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							
+						}
+						do{
+							try{
+								System.out.printf("\nPatron[%d]->Salida: ", i);
+								salidas[i] = (double)(entrada.nextDouble());
+								break;
+							}
+							catch(InputMismatchException excepcion){
+								entrada.nextLine();
+							}
+						}while(true);	
+					}
+
+					//System.out.printf("\nInicio del entrenamiento...\n");
+					//Entrenamiento.algoritmoPerceptron(salidas, entradas, rnap);
+					//System.out.printf("\nFin del entrenamiento...\n");
+				}
+				else if(opcion == 2){ // PERCEPTRON MULTICAPA ---------------------------------------------------------
+					topologia = "MULTICAPA";
+					do{
+						try{
+							System.out.printf("\nNumero total de capas en la red(Ocultas y capa de salida): ");
+							numCapas = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					numNeuronasCapa = new byte[numCapas];
+					for(int i=0; i<numCapas; i++){
+						if(i == numCapas-1){
+							do{
+								try{
+									System.out.printf("\nNumero de neuronas en la capa de salida: ");
+									numNeuronasCapa[i] = entrada.nextByte();
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							
+						}
+						else{
+							do{
+								try{
+									System.out.printf("\nNumero de neuronas en la capa oculta [%d]: ", i);
+									numNeuronasCapa[i] = entrada.nextByte();
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+						}
+					}
+					funcionCapa = new byte[numCapas];
+					do{
+						try{
+							System.out.printf("\nNumero de patrones de entrenamiento: ");
+							numPatrones = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					do{
+						try{
+							System.out.printf("\nNumero de valores por patron: ");
+							numArgumentos = entrada.nextInt();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+
+					rnap = new RedNeuronal(numArgumentos, numCapas, numNeuronasCapa, nombre, topologia);
+
+					System.out.printf("\nIndique la configuracion para la tasa de aprendizaje de la red.\n");
+					System.out.println("1) Una misma tasa de aprendizaje para toda la red.");
+					System.out.println("2) Una tasa de aprendizaje distinta por capa.");
+					System.out.println("3) Una tasa de aprendizaje distinta por neurona.");
+					do{
+						try{
+							System.out.printf("\n\tConfiguracion: ");
+							config = entrada.nextByte();
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					configAlphas = configuracionAlphas((byte)config);
+					rnap.establecerConfiguracionAlphas(config);
+
 				}
 				do{
 					try{
@@ -74,12 +243,13 @@ public class RNAP{
 						entrada.nextLine();
 					}
 				}while(true);
-				eco = entrada.nextInt();
 			}
-			else if(opcion == 2){ // MOSTRAR PERCEPTRON ===========================================
+			else if(opcion == 2){ // MOSTRAR PERCEPTRON =========================================================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para mostrar.\n");
 				}
+				else{
+				}
 				do{
 					try{
 						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
@@ -91,10 +261,12 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 3){ // APLICAR PERCEPTRON ===========================================
+			else if(opcion == 3){ // APLICAR PERCEPTRON =========================================================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para aplicar.\n");
 				}
+				else{
+				}
 				do{
 					try{
 						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
@@ -106,24 +278,11 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 4){ // ENTRENAR PERCEPTRON ==========================================
+			else if(opcion == 4){ // ENTRENAR PERCEPTRON ========================================================================
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para entrenar.\n");
 				}
-				do{
-					try{
-						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
-						eco = entrada.nextInt();
-						break;
-					}
-					catch(InputMismatchException excepcion){
-						entrada.nextLine();
-					}
-				}while(true);
-			}
-			else if(opcion == 5){ // MODIFICAR PERCEPTRON =========================================
-				if(redesNeuronalesPerceptron.size() == 0){
-					System.out.printf("\n\tNo hay redes existentes para modificar.\n");
+				else{
 				}
 				do{
 					try{
@@ -136,7 +295,24 @@ public class RNAP{
 					}
 				}while(true);
 			}
-			else if(opcion == 6){ // SALIR ========================================================
+			else if(opcion == 5){ // MODIFICAR PERCEPTRON =======================================================================
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para modificar.\n");
+				}
+				else{
+				}
+				do{
+					try{
+						System.out.printf("\nDigita un numero y presiona <Enter> para continuar...");
+						eco = entrada.nextInt();
+						break;
+					}
+					catch(InputMismatchException excepcion){
+						entrada.nextLine();
+					}
+				}while(true);
+			}
+			else if(opcion == 6){ // SALIR ======================================================================================
 				continuar = false;
 			}
 		}
@@ -503,6 +679,17 @@ public class RNAP{
 			}
 		}while(opcion != 0);
 		*/
+	}
+
+	public static String configuracionAlphas(byte indice){
+		String alpha = new String();
+		if(indice == 1)
+			alpha = "TDA/RED";
+		else if(indice == 2)
+			alpha = "TDA/CAPA";
+		else if(indice == 3)
+			alpha = "TDA/NEURONA";
+		return alpha;
 	}
 
 	public static void limpiarPantalla(){

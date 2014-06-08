@@ -14,12 +14,13 @@ public class RedNeuronal{
 	private String topologiaPerceptron;
 	private String configuracionAlphas;
 	private String configuracionFunciones;
-	private String condicionesEntrenamiento;
 	private ArrayList<CapaNeuronal> perceptron;
 
 	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa, String nombrePerceptron, String topologiaPerceptron){
 		this.nombrePerceptron = nombrePerceptron;
 		this.topologiaPerceptron = topologiaPerceptron;
+		this.configuracionAlphas = null;
+		this.configuracionFunciones = null;
 		this.perceptron = new ArrayList<CapaNeuronal>(numCapas);
 		for(int i=0; i<numCapas; i++){
 			CapaNeuronal capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs);
@@ -27,14 +28,21 @@ public class RedNeuronal{
 		}
 	}
 
+	public String obtenerNombrePerceptron(){
+		return this.nombrePerceptron;
+	}
+
+	public String obtenerTopologiaPerceptron(){
+		return this.topologiaPerceptron;
+	}
+
 	public ArrayList<CapaNeuronal> obtenerPerceptron(){
 		return this.perceptron;
 	}
 
-	public void establecerDatosPerceptron(String configuracionAlphas, String configuracionFunciones, String condicionesEntrenamiento){
+	public void establecerDatosPerceptron(String configuracionAlphas, String configuracionFunciones){
 		this.configuracionAlphas = configuracionAlphas;
 		this.configuracionFunciones = configuracionFunciones;
-		this.condicionesEntrenamiento = condicionesEntrenamiento;
 	}
 
 	public void establecerConfiguracionAlphas(byte indice){
