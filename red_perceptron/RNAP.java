@@ -17,13 +17,13 @@ public class RNAP{
 		int configActivacion=0, configAlpha=0, numNeuronas=0;
 		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0;
 		byte[] funcionesCapa, numNeuronasCapa;
-		boolean continuar=true;
+		boolean continuar=true, buscar=true;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
-		String eco, nombre, topologia, configAlphas, configFunciones;
+		String eco=null, nombre=null, topologia=null, configAlphas=null, configFunciones=null;
 		Scanner entrada = new Scanner(System.in);
-		CapaNeuronal capaNeural;
-		RedNeuronal rnap;
-		ArrayList<CapaNeuronal> redNeural;
+		CapaNeuronal capaNeural=null;
+		RedNeuronal rnap=null;
+		ArrayList<CapaNeuronal> redNeural=null;
 		ArrayList<RedNeuronal> redesNeuronalesPerceptron = new ArrayList<RedNeuronal>();
 		
 		while(continuar){
@@ -46,6 +46,7 @@ public class RNAP{
 				}
 			}while(true);
 			if(opcion == 1){ // CREAR PERCEPTRON ================================================================================
+				limpiarPantalla();
 				System.out.printf("\nEscribe un nombre para la red: ");
 				entrada.nextLine();
 				nombre = entrada.nextLine();
@@ -335,13 +336,34 @@ public class RNAP{
 				eco = entrada.nextLine();
 			}
 			else if(opcion == 2){ // MOSTRAR PERCEPTRON =========================================================================
+				limpiarPantalla();
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para mostrar.\n");
+					entrada.nextLine();
 				}
 				else{
+					buscar = true;
+					System.out.printf("\n\tRedes existentes.\n");
+					for(int i=0; i<redesNeuronalesPerceptron.size(); i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						System.out.printf("{%s} ", rnap.obtenerNombrePerceptron());
+					}
+					System.out.printf("\nNombre de la red a mostrar: ");
+					entrada.nextLine();
+					nombre = entrada.nextLine();
+					nombre = nombre.toUpperCase();
+					for(int i=0; i<redesNeuronalesPerceptron.size() && buscar; i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						if(nombre.equals(rnap.obtenerNombrePerceptron()))
+							buscar = false;
+					}
+					if(buscar)
+						System.out.printf("\n\tNombre de red incorrecto.\n");
+					else
+						rnap.mostrarDatosPerceptron();
 				}
+				nombre = null;
 				System.out.printf("\nPresiona <Enter> para continuar...");
-				entrada.nextLine();
 				eco = entrada.nextLine();
 			}
 			else if(opcion == 3){ // APLICAR PERCEPTRON =========================================================================

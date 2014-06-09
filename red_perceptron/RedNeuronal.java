@@ -168,4 +168,17 @@ public class RedNeuronal{
 			capa.actualizarPesos();
 		}
 	}
+
+	public void mostrarDatosPerceptron(){
+		CapaNeuronal capa;
+		System.out.printf("\nNombre:                  %s", this.nombrePerceptron);
+		System.out.printf("\nTopologia:               %s", this.topologiaPerceptron);
+		System.out.printf("\nConfiguracion/TDA:       %s", this.configuracionAlphas);
+		System.out.printf("\nConfiguracion/Funciones: %s", this.configuracionFunciones);
+		for(int i=0; i<this.perceptron.size(); i++){
+			capa = this.perceptron.get(i);
+			System.out.printf("\nCapa (%d)", i+1);
+			capa.mostrarDatosCapa();
+		}
+	}
 }

@@ -162,17 +162,17 @@ public class CapaNeuronal{
 			this.incremento[indice][i] = pesosPrevios[i] - pesosActuales[i];
 	}
 
-	public void imprimirDatos(){
+	public void mostrarDatosCapa(){
 		double[] pesos;
 		for(int i=0; i<neuronas.length; i++){
-			System.out.printf("\nNeurona: %d", i);
-			System.out.printf("\n  Alpha: %f", neuronas[i].obtenerAlpha());
-			System.out.printf("\n  Umbral: %f", neuronas[i].obtenerUmbral());
-			System.out.printf("\n  Salida: %f", neuronas[i].obtenerSalida());
+			System.out.printf("\nNeurona (%d) {", i+1);
+			System.out.printf("Alpha:(%f) |", neuronas[i].obtenerAlpha());
+			System.out.printf(" Umbral:(%f) |", neuronas[i].obtenerUmbral());
 			pesos = neuronas[i].obtenerPesos();
-			System.out.printf("\n  Pesos: ");
+			System.out.printf(" Pesos:[");
 			for(int j=0; j<pesos.length; j++)
-				System.out.printf("{%f}", pesos[j]);
+				System.out.printf("(%f)", pesos[j]);
+			System.out.printf("]}");
 		}
 	}
 }
