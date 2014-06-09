@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class RedNeuronal{
 	private String nombrePerceptron;
+	private String funcionPerceptron;
 	private String topologiaPerceptron;
 	private String configuracionAlphas;
 	private String configuracionFunciones;
@@ -18,6 +19,10 @@ public class RedNeuronal{
 
 	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa, String nombrePerceptron, String topologiaPerceptron){
 		this.nombrePerceptron = nombrePerceptron;
+		if(topologiaPerceptron.equals("MULTICAPA"))
+			this.funcionPerceptron = "";
+		else
+			this.funcionPerceptron = null;
 		this.topologiaPerceptron = topologiaPerceptron;
 		this.configuracionAlphas = null;
 		this.configuracionFunciones = null;
@@ -38,6 +43,14 @@ public class RedNeuronal{
 
 	public ArrayList<CapaNeuronal> obtenerPerceptron(){
 		return this.perceptron;
+	}
+
+	public void establecerNombrePerceptron(String nombrePerceptron){
+		this.nombrePerceptron = nombrePerceptron;
+	}
+
+	public void establecerFuncionPerceptron(String funcionPerceptron){
+		this.funcionPerceptron = funcionPerceptron;
 	}
 
 	public void establecerConfiguracionAlphas(String configuracionAlphas){
@@ -175,6 +188,8 @@ public class RedNeuronal{
 		System.out.printf("\nTopologia:               %s", this.topologiaPerceptron);
 		System.out.printf("\nConfiguracion/TDA:       %s", this.configuracionAlphas);
 		System.out.printf("\nConfiguracion/Funciones: %s", this.configuracionFunciones);
+		if(this.topologiaPerceptron.equals("SIMPLE"))
+			System.out.printf("\nFuncion/Activacion:      %s", this.funcionPerceptron);
 		for(int i=0; i<this.perceptron.size(); i++){
 			capa = this.perceptron.get(i);
 			System.out.printf("\nCapa (%d)", i+1);
