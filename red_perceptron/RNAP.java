@@ -332,7 +332,44 @@ public class RNAP{
 								configuracionFuncion((byte)rnap.obtenerPerceptron().get(0).obtenerFunciones().length, rnap);
 							}
 						}
-						else{}
+						else{
+							System.out.println();
+							System.out.println("1) Modificar nombre.");
+							System.out.println("2) Modificar configuracion de la tasa de aprendizaje.");
+							System.out.println("3) Modificar configuracion de las funciones de activacion.");
+							opcion = 0;
+							do{
+								try{
+									while(opcion < 1 || opcion > 3){
+										System.out.printf("\nParametro a modificar: ");
+										opcion = entrada.nextInt();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							entrada.nextLine();
+							if(opcion == 1){
+								nombre = null;
+								System.out.printf("\nEscribe el nuevo nombre para la red: ");
+								nombre = entrada.nextLine();
+								nombre = nombre.toUpperCase();
+								rnap.establecerNombrePerceptron(nombre);
+							}
+							else if(opcion == 2){
+								configuracionAlphas(rnap);
+							}
+							else{
+								numCapas = rnap.obtenerPerceptron().size();
+								numNeuronasCapa = new byte[numCapas];
+								for(int i=0; i<numCapas; i++){
+									numNeuronasCapa[i] = (byte)rnap.obtenerPerceptron().get(i).obtenerFunciones().length;
+								}
+								configuracionFuncionesMulticapa(numNeuronasCapa, numCapas, rnap);
+							}
+						}
 					}
 				}
 				System.out.printf("\nPresiona <Enter> para continuar...");
@@ -343,135 +380,6 @@ public class RNAP{
 				continuar = false;
 			}
 		}
-
-		/*
-
-				salidas = new double[numPatrones];
-				entradas = new double[numPatrones][numArgumentos];
-				for(int i=0; i<numPatrones; i++){
-					for(int j=0; j<numArgumentos; j++){
-						do{
-							try{
-								System.out.printf("\nPatron[%d]->Valor[%d]: ", i, j);
-								entradas[i][j] = (double)(entrada.nextDouble());
-								break;
-							}
-							catch(InputMismatchException excepcion){
-								entrada.nextLine();
-							}
-						}while(true);
-						
-					}
-					do{
-						try{
-							System.out.printf("\nPatron[%d]->Salida: ", i);
-							salidas[i] = (double)(entrada.nextDouble());
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);	
-				}
-
-				System.out.printf("\nInicio del entrenamiento...\n");
-				Entrenamiento.algoritmoPerceptron(salidas, entradas, rnap);
-				System.out.printf("\nFin del entrenamiento...\n");
-
-				System.out.printf("\nIndique la(s) condicion(es) para finalizar el entrenamiento de la red.\n");
-				System.out.println("1) Establecer un numero maxmimo de epocas(iteraciones) de entrenamiento.");
-				System.out.println("2) Establecer un minimo aceptable del error.");
-				System.out.println("3) Establecer un numero maximo de epocas y un minimo aceptable del error.");
-				do{
-					try{
-						System.out.printf("\n\tCondicion(es): ");
-						config = entrada.nextByte();
-						break;
-					}
-					catch(InputMismatchException excepcion){
-						entrada.nextLine();
-					}
-				}while(true);
-				if(config == 1){
-					do{
-						try{
-							System.out.printf("\nMaximo de epocas de entrenamiento: ");
-							epocas = entrada.nextInt();
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
-				}
-				else if(config == 2){
-					do{
-						try{
-							System.out.printf("\nMinimo aceptable del error, en porcentaje %%: ");
-							error = entrada.nextDouble();
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
-				}
-				else if(config == 3){
-					do{
-						try{
-							System.out.printf("\nMaximo de epocas de entrenamiento: ");
-							epocas = entrada.nextInt();
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
-					do{
-						try{
-							System.out.printf("\nMinimo aceptable del error, en porcentaje %%: ");
-							error = entrada.nextDouble();
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
-					
-				}
-				System.out.printf("\nA continuacion ingrese los datos para el entrenamiento.\n");
-				salidas = new double[numPatrones];
-				entradas = new double[numPatrones][numArgumentos];
-				for(int i=0; i<numPatrones; i++){
-					for(int j=0; j<numArgumentos; j++){
-						do{
-							try{
-								System.out.printf("\nPatron[%d]->Valor[%d]: ", i, j);
-								entradas[i][j] = (double)(entrada.nextDouble());
-								break;
-							}
-							catch(InputMismatchException excepcion){
-								entrada.nextLine();
-							}
-						}while(true);
-						
-					}
-					do{
-						try{
-							System.out.printf("\nPatron[%d]->Salida: ", i);
-							salidas[i] = (double)(entrada.nextDouble());
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
-				}
-				System.out.printf("\nInicio del entrenamiento...\n");
-				//Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, perceptron);
-				System.out.printf("\nFin del entrenamiento...\n");
-			}
-		*/
 	}
 
 	public static void configuracionAlphas(RedNeuronal rnap){
