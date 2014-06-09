@@ -47,10 +47,24 @@ public class RNAP{
 			}while(true);
 			if(opcion == 1){ // CREAR PERCEPTRON ================================================================================
 				limpiarPantalla();
-				System.out.printf("\nEscribe un nombre para la red: ");
 				entrada.nextLine();
-				nombre = entrada.nextLine();
-				nombre = nombre.toUpperCase();
+				do{
+					nombre = null;
+					buscar = false;
+					System.out.printf("\nEscribe un nombre para la red: ");
+					nombre = entrada.nextLine();
+					nombre = nombre.toUpperCase();
+					if(redesNeuronalesPerceptron.size() != 0){
+						for(int i=0; i<redesNeuronalesPerceptron.size(); i++){
+							rnap = redesNeuronalesPerceptron.get(i);
+							if(nombre.equals(rnap.obtenerNombrePerceptron())){
+								System.out.printf("\n\tNombre existente.\n");
+								buscar = true;
+								break;
+							}
+						}
+					}
+				}while(buscar);
 				System.out.println();
 				opcion = 0;
 				while(opcion<1 || opcion>2){
