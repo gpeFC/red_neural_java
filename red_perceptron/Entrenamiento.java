@@ -25,7 +25,8 @@ public final class Entrenamiento{
 	private double[][] entradasPatrones;
 
 	public static void algoritmoPerceptron(double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
-		int epocas=0, seguir=0;
+		int seguir=0;
+		long epocas=0;
 		double error, alpha=0.0, salidas[];
 		boolean fin = true;
 		Scanner entrada = new Scanner(System.in);
@@ -33,7 +34,7 @@ public final class Entrenamiento{
 		CapaNeuronal perceptron = redNeuronal.get(0);
 		salidas = new double[salidasPatrones.length];
 		System.out.printf("\nAntes de Entrenar...");
-		perceptron.imprimirDatos();
+		perceptron.mostrarDatosCapa();
 		System.out.printf("\n\n");
 		while(fin){
 			fin = false;
@@ -53,7 +54,7 @@ public final class Entrenamiento{
 				}
 			}
 			System.out.printf("\nEpoca: %d", epocas);
-			perceptron.imprimirDatos();
+			perceptron.mostrarDatosCapa();
 			System.out.printf("\n\n");
 			epocas++;
 		}

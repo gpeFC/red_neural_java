@@ -37,6 +37,10 @@ public class RedNeuronal{
 		return this.nombrePerceptron;
 	}
 
+	public String obtenerFuncionPerceptron(){
+		return this.funcionPerceptron;
+	}
+
 	public String obtenerTopologiaPerceptron(){
 		return this.topologiaPerceptron;
 	}

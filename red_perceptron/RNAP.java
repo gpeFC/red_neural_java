@@ -17,7 +17,7 @@ public class RNAP{
 		int configActivacion=0, configAlpha=0;
 		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;
 		byte[] funcionesCapa, numNeuronasCapa;
-		boolean continuar=true, buscar=true;
+		boolean continuar=true, buscar=true, errorValid=true;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
 		String eco=null, nombre=null, topologia=null, configAlphas=null, configFunciones=null;
 		Scanner entrada = new Scanner(System.in);
@@ -33,8 +33,9 @@ public class RNAP{
 			System.out.println("2) Mostrar perceptron.");
 			System.out.println("3) Aplicar perceptron.");
 			System.out.println("4) Entrenar perceptron.");
-			System.out.println("5) Modificar perceptron.");
-			System.out.println("6) Salir de la aplicacion.");
+			System.out.println("5) Eliminar perceptron.");
+			System.out.println("6) Modificar perceptron.");
+			System.out.println("7) Salir de la aplicacion.");
 			do{
 				try{
 					System.out.printf("\n\tTarea a realizar: ");
@@ -271,12 +272,91 @@ public class RNAP{
 					System.out.printf("\n\tNo hay redes existentes para entrenar.\n");
 				}
 				else{
+					buscar = true;
+					System.out.printf("\n\tRedes existentes.\n");
+					for(int i=0; i<redesNeuronalesPerceptron.size(); i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						System.out.printf("{%s} ", rnap.obtenerNombrePerceptron());
+					}
+					System.out.printf("\nNombre de la red a entrenar: ");
+					entrada.nextLine();
+					nombre = entrada.nextLine();
+					nombre = nombre.toUpperCase();
+					for(int i=0; i<redesNeuronalesPerceptron.size() && buscar; i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						if(nombre.equals(rnap.obtenerNombrePerceptron()))
+							buscar = false;
+					}
+					if(buscar)
+						System.out.printf("\n\tNombre de red incorrecto.\n");
+					else{
+						if(rnap.obtenerTopologiaPerceptron().equals("SIMPLE")){}
+						else{}
+					}
 				}
 				System.out.printf("\nPresiona <Enter> para continuar...");
 				entrada.nextLine();
 				eco = entrada.nextLine();
 			}
-			else if(opcion == 5){ // MODIFICAR PERCEPTRON =======================================================================
+			else if(opcion == 5){ // ELIMINAR PERCEPTRON ========================================================================
+				limpiarPantalla();
+				if(redesNeuronalesPerceptron.size() == 0){
+					System.out.printf("\n\tNo hay redes existentes para eliminar.\n");
+					entrada.nextLine();
+				}
+				else{
+					System.out.println();
+					System.out.println("1) Eliminar una red especifica.");
+					System.out.println("2) Eliminar todas las redes existentes.");
+					opcion = 0;
+					do{
+						try{
+							while(opcion < 1 || opcion > 2){
+								System.out.printf("\nOpcion de borrado: ");
+								opcion = entrada.nextInt();
+							}
+							break;
+						}
+						catch(InputMismatchException excepcion){
+							entrada.nextLine();
+						}
+					}while(true);
+					if(opcion == 1){
+						buscar = true;
+						System.out.printf("\n\tRedes existentes.\n");
+						for(int i=0; i<redesNeuronalesPerceptron.size(); i++){
+							rnap = redesNeuronalesPerceptron.get(i);
+							System.out.printf("{%s} ", rnap.obtenerNombrePerceptron());
+						}
+						System.out.printf("\nNombre de la red a eliminar: ");
+						entrada.nextLine();
+						nombre = entrada.nextLine();
+						nombre = nombre.toUpperCase();
+						for(int i=0; i<redesNeuronalesPerceptron.size() && buscar; i++){
+							rnap = redesNeuronalesPerceptron.get(i);
+							if(nombre.equals(rnap.obtenerNombrePerceptron())){
+								buscar = false;
+								redesNeuronalesPerceptron.remove(i);
+								System.out.printf("\nRed eliminada.\n");
+								break;
+							}
+						}
+						if(buscar){
+							System.out.printf("\n\tNombre de red incorrecto.\n");
+						}
+					}
+					else{
+						entrada.nextLine();
+						redesNeuronalesPerceptron.clear();
+						if(redesNeuronalesPerceptron.size() == 0)
+							System.out.printf("\nRedes eliminadas.\n");
+					}
+				}
+				System.out.printf("\nPresiona <Enter> para continuar...");
+				//entrada.nextLine();
+				eco = entrada.nextLine();
+			}
+			else if(opcion == 6){ // MODIFICAR PERCEPTRON =======================================================================
 				limpiarPantalla();
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para modificar.\n");
@@ -376,7 +456,7 @@ public class RNAP{
 				//entrada.nextLine();
 				eco = entrada.nextLine();
 			}
-			else if(opcion == 6){ // SALIR ======================================================================================
+			else if(opcion == 7){ // SALIR ======================================================================================
 				continuar = false;
 			}
 		}
