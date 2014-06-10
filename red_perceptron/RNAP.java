@@ -268,10 +268,10 @@ public class RNAP{
 						System.out.printf("\n\tNombre de red incorrecto.\n");
 					else{
 						if(rnap.obtenerTopologiaPerceptron().equals("SIMPLE")){
+							epocas = 0;
 							salidas = null;
 							entradas = null;
 							System.out.println();
-							epocas = 0;
 							do{
 								try{
 									while(epocas < 1){
@@ -364,6 +364,8 @@ public class RNAP{
 							System.out.printf("\n\tFin del entrenamiento...\n");
 						}
 						else{
+							error = 0.0;
+							epocas = 0;
 							salidas = null;
 							entradas = null;
 							System.out.printf("\nIndique la condicion para finalizar el entrenamiento de la red.\n");
@@ -425,9 +427,84 @@ public class RNAP{
 									}
 								}while(true);	
 							}
+							System.out.println();
+							System.out.println("1) Ingresar patrones por teclado.");
+							System.out.println("2) Ingresar patrones por archivo.");
+							opcion = 0;
+							do{
+								try{
+									while(opcion < 1 || opcion > 2){
+										System.out.printf("\nOpcion para ingresar patrones de entrenamiento: ");
+										opcion = entrada.nextInt();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							if(opcion == 1){
+								System.out.println();
+								numPatrones = 0;
+								do{
+									try{
+										while(numPatrones < 1){
+											System.out.printf("\nNumero de patrones de entrenamiento: ");
+											numPatrones = entrada.nextInt();
+										}
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);
+								numArgumentos = rnap.obtenerPerceptron().get(0).obtenerNeuronas()[0].obtenerPesos().length;
+								salidas = new double[numPatrones];
+								entradas = new double[numPatrones][numArgumentos];
+								for(int i=0; i<numPatrones; i++){
+									for(int j=0; j<numArgumentos; j++){
+										do{
+											try{
+												System.out.printf("\nPatron[%d]->Valor[%d]: ", i+1, j+1);
+												entradas[i][j] = (double)(entrada.nextDouble());
+												break;
+											}
+											catch(InputMismatchException excepcion){
+												entrada.nextLine();
+											}
+										}while(true);
+										
+									}
+									do{
+										try{
+											do{
+												System.out.printf("\nPatron[%d]->Salida: ", i+1);
+												salidas[i] = (double)(entrada.nextDouble());
+												if(rnap.obtenerFuncionPerceptron().equals("HARDLIM")){
+													if(salidas[i]==0 || salidas[i]==1)
+														break;
+													else
+														System.out.println("\tValor incorrecto.");
+												}
+												else{
+													if(salidas[i]==-1 || salidas[i]==1)
+														break;
+													else
+														System.out.println("\tValor incorrecto.");
+												}
+											}while(true);
+											break;
+										}
+										catch(InputMismatchException excepcion){
+											entrada.nextLine();
+										}
+									}while(true);	
+								}
+							}
+							else{}
 							System.out.printf("\nIndique el algoritmo de entrenamiento a utilizar.\n");
 							System.out.println("1) Retropropagacion.");
-							System.out.println("2) Momento.");
+							System.out.println("2) Retropropagacion/Momento.");
 							opcion = 0;
 							do{
 								try{
@@ -446,7 +523,11 @@ public class RNAP{
 								Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, rnap);
 								System.out.printf("\n\tFin del entrenamiento...\n");
 							}
-							else{}
+							else{
+								System.out.printf("\n\tInicio del entrenamiento...\n");
+								Entrenamiento.algoritmoRetropropagacionMomento(epocas, error, salidas, entradas, rnap);
+								System.out.printf("\n\tFin del entrenamiento...\n");
+							}
 						}
 					}
 				}

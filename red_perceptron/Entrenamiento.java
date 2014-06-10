@@ -68,40 +68,94 @@ public final class Entrenamiento{
 
 	public static void algoritmoRetropropagacion(long epocas, double error, double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
 		int iteraciones=0;
-		boolean fin = true, fallo=false;
-		double errorLocal=0.0, errorGlobal=0.0, salidas[], errores[];
+		boolean fin=true, fallo;
+		double errorPatron=0.0, errorMinimo=0.0, ecm=0.0, salidas[], errores[];
 		CapaNeuronal capa;
 		ArrayList<CapaNeuronal> perceptron;
-		Scanner entrada = new Scanner(System.in);
-
+		for(int i=0; i<salidasPatrones.length; i++)
+			errorMinimo = errorMinimo + salidasPatrones[i];
+		errorMinimo = errorMinimo / ((double)salidasPatrones.length);
+		errorMinimo = errorMinimo * (error/100.0);
+		errores = new double[salidasPatrones.length];
 		while(fin){
-			errores = new double[salidasPatrones.length];
-			for(int i=0; i<salidasPatrones.length; i++){}
-		}
-
-		if(epocas>0 && error==0.0){
-			do{
-				errores = new double[salidasPatrones.length];
-				for(int i=0; i<salidasPatrones.length; i++){
-					rnap.realizarPropagacion(entradasPatrones[i]);
-					perceptron = rnap.obtenerPerceptron();
-					capa = perceptron.get(perceptron.size()-1);
-					salidas = capa.obtenerSalidas();
-					for(int j=0; j<salidas.length; j++)
-						if(salidas[j] != salidasPatrones[i])
-							fallo = true;
+			ecm = 0.0;
+			for(int i=0; i<salidasPatrones.length; i++){
+				fallo = false;
+				errorPatron = 0.0;
+				rnap.realizarPropagacion(entradasPatrones[i]);
+				perceptron = rnap.obtenerPerceptron();
+				capa = perceptron.get(perceptron.size()-1);
+				salidas = capa.obtenerSalidas();
+				for(int j=0; j<salidas.length; j++){
+					if(salidas[j] != salidasPatrones[i])
+						fallo = true;
+					errorPatron = errorPatron + (salidasPatrones[i]-salidas[j]);
 				}
-			}while(fin);
+				errores[i] = Math.pow((errorPatron / ((double)salidas.length)), 2);
+				if(fallo)
+					rnap.realizarRetroPropagacion(salidasPatrones[i]);
+				rnap.actualizarParametrosNeuronalesRP(1, 0.0);
+			}
+			for(int i=0; i<errores.length; i++)
+				ecm = ecm + errores[i];
+			ecm = ecm / ((double)errores.length);
+			if(ecm<=errorMinimo || iteraciones==epocas-1)
+				fin = false;
+			iteraciones++;
 		}
-		else if(epocas==0 && error>0.0){
-		}
-		else if(epocas>0 && error>0.0){
-		}
+		System.out.printf("\nEpocas de entrenamiento:   %d.\n", iteraciones);
+		System.out.printf("\nError minimo acordado:     %f.\n", errorMinimo);
+		System.out.printf("\nError minimo alcanzado:    %f.\n", ecm);
+		rnap.mostrarDatosPerceptron();
+		System.out.printf("\n\n");
 	}
 
-	public void algoritmoMomento(){}
-
-	public void algoritmoSilvaAlmeida(){}
-
-	public void algoritmoDeltaBarDelta(){}
+	public static void algoritmoRetropropagacionMomento(long epocas, double error, double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
+		int iteraciones=0;
+		boolean fin=true, fallo;
+		double errorPatron=0.0, errorMinimo=0.0, ecm=0.0, eta=0.0, salidas[], errores[];
+		CapaNeuronal capa;
+		ArrayList<CapaNeuronal> perceptron;
+		do{
+			eta = (Math.random()*10 + 1)/10.0;	// Inicialización aleatoria del umbral\bias de la neurona.
+		}while(eta == 0.0);
+		if(eta > 1.0)
+			eta = eta / 2.0;
+		for(int i=0; i<salidasPatrones.length; i++)
+			errorMinimo = errorMinimo + salidasPatrones[i];
+		errorMinimo = errorMinimo / ((double)salidasPatrones.length);
+		errorMinimo = errorMinimo * (error/100.0);
+		errores = new double[salidasPatrones.length];
+		while(fin){
+			ecm = 0.0;
+			for(int i=0; i<salidasPatrones.length; i++){
+				fallo = false;
+				errorPatron = 0.0;
+				rnap.realizarPropagacion(entradasPatrones[i]);
+				perceptron = rnap.obtenerPerceptron();
+				capa = perceptron.get(perceptron.size()-1);
+				salidas = capa.obtenerSalidas();
+				for(int j=0; j<salidas.length; j++){
+					if(salidas[j] != salidasPatrones[i])
+						fallo = true;
+					errorPatron = errorPatron + (salidasPatrones[i]-salidas[j]);
+				}
+				errores[i] = Math.pow((errorPatron / 2.0), 2);
+				if(fallo)
+					rnap.realizarRetroPropagacion(salidasPatrones[i]);
+				rnap.actualizarParametrosNeuronalesRP(2, eta);
+			}
+			for(int i=0; i<errores.length; i++)
+				ecm = ecm + errores[i];
+			ecm = ecm / ((double)errores.length);
+			if(ecm<=errorMinimo || iteraciones==epocas-1)
+				fin = false;
+			iteraciones++;
+		}
+		System.out.printf("\nEpocas de entrenamiento:   %d.\n", iteraciones+1);
+		System.out.printf("\nError minimo acordado:     %f.\n", errorMinimo);
+		System.out.printf("\nError minimo alcanzado:    %f.\n", ecm);
+		rnap.mostrarDatosPerceptron();
+		System.out.printf("\n\n");
+	}
 }

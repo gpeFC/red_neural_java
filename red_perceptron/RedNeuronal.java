@@ -166,7 +166,7 @@ public class RedNeuronal{
 		double[] salidas, errores;
 		Perceptron[] neuronas;
 		CapaNeuronal capa, previa;
-		for(int i=this.perceptron.size()-1; i>=0; i++){
+		for(int i=this.perceptron.size()-1; i>=0; i--){
 			capa = this.perceptron.get(i);
 			if(i == this.perceptron.size()-1){
 				salidas = capa.obtenerSalidas();
@@ -184,12 +184,12 @@ public class RedNeuronal{
 		}
 	}
 
-	public void actualizarParametrosNeuronales(){
+	public void actualizarParametrosNeuronalesRP(int indice, double eta){
 		CapaNeuronal capa;
-		for(int i=0; i<this.perceptron.size(); i++){
+		for(int i=this.perceptron.size()-1; i>=0; i--){
 			capa = this.perceptron.get(i);
 			capa.actualizarUmbrales();
-			capa.actualizarPesos();
+			capa.actualizarPesos(eta, indice);
 		}
 	}
 

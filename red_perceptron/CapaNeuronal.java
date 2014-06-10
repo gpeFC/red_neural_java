@@ -103,7 +103,8 @@ public class CapaNeuronal{
 		double umbralAnterior, umbralNuevo=0.0;
 		for(int i=0; i<this.neuronas.length; i++){
 			umbralAnterior = this.neuronas[i].obtenerUmbral();
-			umbralNuevo = umbralAnterior + (-1.0 * this.neuronas[i].obtenerAlpha() * this.delthas[i]);
+			umbralNuevo = umbralAnterior + (this.neuronas[i].obtenerAlpha() * this.delthas[i]);
+			System.out.printf("\nUmb: (%f) = (%f) + [(%f)*(%f)]\n", umbralNuevo, umbralAnterior, this.neuronas[i].obtenerAlpha(), this.delthas[i]);
 			this.neuronas[i].establecerUmbral(umbralNuevo);
 		}
 	}
@@ -119,15 +120,24 @@ public class CapaNeuronal{
 	}
 
 	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa.(Perceptron Multicapa) */
-	public void actualizarPesos(){
+	public void actualizarPesos(double eta, int indice){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entradas.length];
 		for(int i=0; i<this.neuronas.length; i++){
 			pesosAnteriores = this.neuronas[i].obtenerPesos();
-			for(int j=0; j<this.entradas.length; i++)
-				pesosNuevos[j] = pesosAnteriores[j] + (-1.0 * this.neuronas[i].obtenerAlpha() * this.delthas[j] * this.entradas[j]);
-			this.neuronas[i].establecerPesos(pesosNuevos);
-			calcularIncremento(i, pesosAnteriores, pesosNuevos);
+			if(indice == 1){
+				for(int j=0; j<this.entradas.length; j++)
+					pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha() * this.delthas[i] * this.entradas[j]);
+				this.neuronas[i].establecerPesos(pesosNuevos);
+			}
+			else if(indice == 2){
+				for(int j=0; j<this.entradas.length; j++){
+					pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha() * this.delthas[j] * this.entradas[j]);
+					pesosNuevos[j] = pesosNuevos[j] + (eta * this.incremento[i][j]);
+					this.incremento[i][j] = pesosAnteriores[j] - pesosNuevos[j];
+				}
+				this.neuronas[i].establecerPesos(pesosNuevos);
+			}
 		}
 	}
 
