@@ -233,6 +233,8 @@ public class RNAP{
 			}
 			else if(opcion == 3){ // APLICAR PERCEPTRON =========================================================================
 				limpiarPantalla();
+				entradas = null;
+				salidas = null;
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para aplicar.\n");
 				}
@@ -254,7 +256,43 @@ public class RNAP{
 					}
 					if(buscar)
 						System.out.printf("\n\tNombre de red incorrecto.\n");
-					else{}
+					else{
+						System.out.println();
+						numPatrones = 0;
+						do{
+							try{
+								while(numPatrones < 1){
+									System.out.printf("\nNumero de entradas: ");
+									numPatrones = entrada.nextInt();
+								}
+								break;
+							}
+							catch(InputMismatchException excepcion){
+								entrada.nextLine();
+							}
+						}while(true);
+						numArgumentos = rnap.obtenerPerceptron().get(0).obtenerNeuronas()[0].obtenerPesos().length;
+						salidas = new double[numPatrones];
+						entradas = new double[numPatrones][numArgumentos];
+						for(int i=0; i<numPatrones; i++){
+							for(int j=0; j<numArgumentos; j++){
+								do{
+									try{
+										System.out.printf("\nPatron[%d]->Valor[%d]: ", i+1, j+1);
+										entradas[i][j] = (double)(entrada.nextDouble());
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);	
+							}
+						}
+						salidas = rnap.aplicarRed(entradas);
+						System.out.println();
+						for(int i=0; i<salidas.length; i++)
+							System.out.printf("\nSalida-Entrada[%d]: %f", i+1, salidas[i]);
+					}
 				}
 				System.out.printf("\nPresiona <Enter> para continuar...");
 				entrada.nextLine();

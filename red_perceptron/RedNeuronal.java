@@ -146,6 +146,21 @@ public class RedNeuronal{
 		capa.establecerFunciones(funciones);
 	}
 
+	public double[] aplicarRed(double[][] entradas){
+		double salida, salidas[], temp[];
+		salidas = new double[entradas.length];
+		for(int i=0; i<entradas.length; i++){
+			realizarPropagacion(entradas[i]);
+			temp = this.perceptron.get(this.perceptron.size()-1).obtenerSalidas();
+			salida = 0.0;
+			for(int j=0; j<temp.length; j++)
+				salida = salida + temp[j];
+			salida = salida / ((double)temp.length);
+			salidas[i] = salida;
+		}
+		return salidas;
+	}
+
 	public void realizarPropagacion(double[] entradas){
 		CapaNeuronal capa, previa;
 		for(int i=0; i<this.perceptron.size(); i++){
