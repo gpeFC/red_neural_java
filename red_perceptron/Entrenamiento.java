@@ -73,6 +73,12 @@ public final class Entrenamiento{
 		CapaNeuronal capa;
 		ArrayList<CapaNeuronal> perceptron;
 		Scanner entrada = new Scanner(System.in);
+
+		while(fin){
+			errores = new double[salidasPatrones.length];
+			for(int i=0; i<salidasPatrones.length; i++){}
+		}
+
 		if(epocas>0 && error==0.0){
 			do{
 				errores = new double[salidasPatrones.length];

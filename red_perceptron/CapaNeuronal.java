@@ -104,6 +104,7 @@ public class CapaNeuronal{
 		for(int i=0; i<this.neuronas.length; i++){
 			umbralAnterior = this.neuronas[i].obtenerUmbral();
 			umbralNuevo = umbralAnterior + (-1.0 * this.neuronas[i].obtenerAlpha() * this.delthas[i]);
+			this.neuronas[i].establecerUmbral(umbralNuevo);
 		}
 	}
 
@@ -130,14 +131,14 @@ public class CapaNeuronal{
 		}
 	}
 
-	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
-	public void calcularDelthas(double[] deltas){
+	/** Método para calcular y establecer el deltha de cada neurona de la capa de salida. */
+	public void calcularDelthas(double[] errores){
 		for(int i=0; i<this.neuronas.length; i++){
-			this.delthas[i] = deltas[i] * Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
+			this.delthas[i] = errores[i] * Funcion.derivada(this.funciones[i], Propagacion.sumaPonderada(this.neuronas[i].obtenerUmbral(), this.entradas, this.neuronas[i].obtenerPesos()));
 		}
 	}
 
-	/** Método para calcular y establecer el deltha de cada neurona de la capa en un mismo arreglo. */
+	/** Método para calcular y establecer el deltha de cada neurona de las capas ocultas. */
 	public void calcularDelthas(double[] deltas, Perceptron[] neuronas){
 		double sumaDeltha, pesos[];
 		for(int i=0; i<this.neuronas.length; i++){

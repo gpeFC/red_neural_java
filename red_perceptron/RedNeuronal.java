@@ -162,24 +162,24 @@ public class RedNeuronal{
 		}
 	}
 
-	public void realizarRetroPropagacion(double[] salidas){
-		double[] salidaRed, deltas;
+	public void realizarRetroPropagacion(double salida){
+		double[] salidas, errores;
 		Perceptron[] neuronas;
 		CapaNeuronal capa, previa;
 		for(int i=this.perceptron.size()-1; i>=0; i++){
 			capa = this.perceptron.get(i);
 			if(i == this.perceptron.size()-1){
-				salidaRed = capa.obtenerSalidas();
-				deltas = new double[salidaRed.length];
+				salidas = capa.obtenerSalidas();
+				errores = new double[salidas.length];
 				for(int j=0; j<salidas.length; j++)
-					deltas[j] = salidas[j] - salidaRed[j];
-				capa.calcularDelthas(deltas);
+					errores[j] = salida - salidas[j];
+				capa.calcularDelthas(errores);
 			}
 			else{
 				previa = this.perceptron.get(i+1);
-				deltas = previa.obtenerDelthas();
+				errores = previa.obtenerDelthas();
 				neuronas = previa.obtenerNeuronas();
-				capa.calcularDelthas(deltas, neuronas);
+				capa.calcularDelthas(errores, neuronas);
 			}
 		}
 	}
