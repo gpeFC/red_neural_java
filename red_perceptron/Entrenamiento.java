@@ -24,20 +24,16 @@ public final class Entrenamiento{
 	private double[] salidasPatrones;
 	private double[][] entradasPatrones;
 
-	public static void algoritmoPerceptron(double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
-		int seguir=0;
-		long epocas=0;
-		double error, alpha=0.0, salidas[];
+	public static void algoritmoPerceptron(long epocas, double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
+		int seguir=0, errores=0, iteraciones=0;
+		double error=0.0, alpha=0.0, salidas[];
 		boolean fin = true;
 		Scanner entrada = new Scanner(System.in);
 		ArrayList<CapaNeuronal> redNeuronal = rnap.obtenerPerceptron();
 		CapaNeuronal perceptron = redNeuronal.get(0);
 		salidas = new double[salidasPatrones.length];
-		System.out.printf("\nAntes de Entrenar...");
-		perceptron.mostrarDatosCapa();
-		System.out.printf("\n\n");
 		while(fin){
-			fin = false;
+			errores = 0;
 			for(int i=0; i<entradasPatrones.length; i++){
 				error = 0.0;
 				perceptron.establecerEntrada(entradasPatrones[i]);
@@ -45,22 +41,32 @@ public final class Entrenamiento{
 				salidas = perceptron.obtenerSalidas();
 				for(int j=0; j<salidas.length; j++){
 					if(salidas[j] != salidasPatrones[i]){
+						errores++;
 						error = salidasPatrones[i] - salidas[j];
-						System.out.printf("\nError actual(%d): (%f) - (%f) := (%f)\n", i, salidasPatrones[i], salidas[j], error);
 						perceptron.actualizarUmbrales(j, error);
 						perceptron.actualizarPesos(j, error);
-						fin = true;
 					}
 				}
 			}
-			System.out.printf("\nEpoca: %d", epocas);
+			if(errores == 0)
+				fin = false;
+			else if(iteraciones == epocas-1)
+				fin = false;
+			else
+				fin = true;
+			iteraciones++;
+		}
+		if(errores == 0){
+			System.out.printf("\nRed entrenada correctamente.");
+			System.out.printf("\nEpocas de entrenamiento: %d.\n", iteraciones+1);
 			perceptron.mostrarDatosCapa();
 			System.out.printf("\n\n");
-			epocas++;
 		}
+		else
+			System.out.printf("\nRed no entrenada correctamente.\n");
 	}
 
-	public static void algoritmoRetropropagacion(int epocas, double error, double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
+	public static void algoritmoRetropropagacion(long epocas, double error, double[] salidasPatrones, double[][] entradasPatrones, RedNeuronal rnap){
 		int iteraciones=0;
 		boolean fin = true, fallo=false;
 		double errorLocal=0.0, errorGlobal=0.0, salidas[], errores[];

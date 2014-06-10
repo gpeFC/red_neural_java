@@ -13,13 +13,14 @@ import java.util.InputMismatchException;
 
 public class RNAP{
 	public static void main(String[] args){
-		int opcion=0, numCapas=1, numPatrones=0, numArgumentos=0, red, epocas=0;
+		int opcion=0, numCapas=0, numPatrones=0, numArgumentos=0, red;
 		int configActivacion=0, configAlpha=0;
 		byte config=0, funcion=0, funcionSalida=0, funcionOcultas=0, numNeuronas=0;
 		byte[] funcionesCapa, numNeuronasCapa;
+		long epocas=0;
 		boolean continuar=true, buscar=true, errorValid=true;
 		double alpha=0.0, error=0.0, salidas[], entradas[][];
-		String eco=null, nombre=null, topologia=null, configAlphas=null, configFunciones=null;
+		String eco=null, nombre=null, funcionPercetron=null, topologia=null, configAlphas=null, configFunciones=null;
 		Scanner entrada = new Scanner(System.in);
 		CapaNeuronal capaNeural=null;
 		RedNeuronal rnap=null;
@@ -88,6 +89,7 @@ public class RNAP{
 					configAlphas = "TDA/RED";
 					configFunciones = "FUNCION/RED";
 					numNeuronasCapa = new byte[1];
+					numCapas = 1;
 					numNeuronas = 0;
 					do{
 						try{
@@ -102,24 +104,11 @@ public class RNAP{
 							entrada.nextLine();
 						}
 					}while(true);
-					numPatrones = 0;
-					do{
-						try{
-							while(numPatrones <1){
-								System.out.printf("\nNumero de patrones de entrenamiento: ");
-								numPatrones = entrada.nextInt();
-							}
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
 					numArgumentos = 0;
 					do{
 						try{
 							while(numArgumentos < 1){
-								System.out.printf("\nNumero de argumentos por patron: ");
+								System.out.printf("\nNumero de argumentos por entrada: ");
 								numArgumentos = entrada.nextInt();
 							}
 							break;
@@ -187,24 +176,11 @@ public class RNAP{
 							}while(true);
 						}
 					}
-					numPatrones = 0;
-					do{
-						try{
-							while(numPatrones < 1){
-								System.out.printf("\nNumero de patrones de entrenamiento: ");
-								numPatrones = entrada.nextInt();
-							}
-							break;
-						}
-						catch(InputMismatchException excepcion){
-							entrada.nextLine();
-						}
-					}while(true);
 					numArgumentos = 0;
 					do{
 						try{
 							while(numArgumentos < 1){
-								System.out.printf("\nNumero de valores por patron: ");
+								System.out.printf("\nNumero de argumentos por entrada: ");
 								numArgumentos = entrada.nextInt();
 							}
 							break;
@@ -270,6 +246,7 @@ public class RNAP{
 				limpiarPantalla();
 				if(redesNeuronalesPerceptron.size() == 0){
 					System.out.printf("\n\tNo hay redes existentes para entrenar.\n");
+					entrada.nextLine();
 				}
 				else{
 					buscar = true;
@@ -290,8 +267,187 @@ public class RNAP{
 					if(buscar)
 						System.out.printf("\n\tNombre de red incorrecto.\n");
 					else{
-						if(rnap.obtenerTopologiaPerceptron().equals("SIMPLE")){}
-						else{}
+						if(rnap.obtenerTopologiaPerceptron().equals("SIMPLE")){
+							salidas = null;
+							entradas = null;
+							System.out.println();
+							epocas = 0;
+							do{
+								try{
+									while(epocas < 1){
+										System.out.printf("\nNumero maximo de epocas de entrenamiento: ");
+										epocas = entrada.nextLong();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							System.out.println();
+							System.out.println("1) Ingresar patrones por teclado.");
+							System.out.println("2) Ingresar patrones por archivo.");
+							opcion = 0;
+							do{
+								try{
+									while(opcion < 1 || opcion > 2){
+										System.out.printf("\nOpcion para ingresar patrones de entrenamiento: ");
+										opcion = entrada.nextInt();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							if(opcion == 1){
+								System.out.println();
+								numPatrones = 0;
+								do{
+									try{
+										while(numPatrones < 1){
+											System.out.printf("\nNumero de patrones de entrenamiento: ");
+											numPatrones = entrada.nextInt();
+										}
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);
+								numArgumentos = rnap.obtenerPerceptron().get(0).obtenerNeuronas()[0].obtenerPesos().length;
+								salidas = new double[numPatrones];
+								entradas = new double[numPatrones][numArgumentos];
+								for(int i=0; i<numPatrones; i++){
+									for(int j=0; j<numArgumentos; j++){
+										do{
+											try{
+												System.out.printf("\nPatron[%d]->Valor[%d]: ", i+1, j+1);
+												entradas[i][j] = (double)(entrada.nextDouble());
+												break;
+											}
+											catch(InputMismatchException excepcion){
+												entrada.nextLine();
+											}
+										}while(true);
+										
+									}
+									do{
+										try{
+											do{
+												System.out.printf("\nPatron[%d]->Salida: ", i+1);
+												salidas[i] = (double)(entrada.nextDouble());
+												if(rnap.obtenerFuncionPerceptron().equals("HARDLIM")){
+													if(salidas[i]==0 || salidas[i]==1)
+														break;
+													else
+														System.out.println("\tValor incorrecto.");
+												}
+												else{
+													if(salidas[i]==-1 || salidas[i]==1)
+														break;
+													else
+														System.out.println("\tValor incorrecto.");
+												}
+											}while(true);
+											break;
+										}
+										catch(InputMismatchException excepcion){
+											entrada.nextLine();
+										}
+									}while(true);	
+								}
+							}
+							else{}
+							System.out.printf("\n\tInicio del entrenamiento...\n");
+							Entrenamiento.algoritmoPerceptron(epocas, salidas, entradas, rnap);
+							System.out.printf("\n\tFin del entrenamiento...\n");
+						}
+						else{
+							salidas = null;
+							entradas = null;
+							System.out.printf("\nIndique la condicion para finalizar el entrenamiento de la red.\n");
+							System.out.println("1) Establecer un numero maxmimo de epocas(iteraciones) de entrenamiento.");
+							System.out.println("2) Establecer un numero maximo de epocas y un minimo aceptable del error.");
+							opcion = 0;
+							do{
+								try{
+									while(opcion<1 || opcion>2){
+										System.out.printf("\n\tCondicion: ");
+										opcion = entrada.nextInt();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							if(opcion == 1){
+								epocas = 0;
+								do{
+									try{
+										while(epocas < 1){
+											System.out.printf("\nMaximo de epocas de entrenamiento: ");
+											epocas = entrada.nextLong();
+										}
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);
+							}
+							else if(opcion == 2){
+								epocas = 0;
+								do{
+									try{
+										while(epocas < 1){
+											System.out.printf("\nMaximo de epocas de entrenamiento: ");
+											epocas = entrada.nextLong();
+										}
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);
+								error = -1.0;
+								do{
+									try{
+										while(error < 0.0){
+											System.out.printf("\nMinimo aceptable del error(ejemp. 5 para un minimo de 5%%): ");
+											error = entrada.nextDouble();
+										}
+										break;
+									}
+									catch(InputMismatchException excepcion){
+										entrada.nextLine();
+									}
+								}while(true);	
+							}
+							System.out.printf("\nIndique el algoritmo de entrenamiento a utilizar.\n");
+							System.out.println("1) Retropropagacion.");
+							System.out.println("2) Momento.");
+							opcion = 0;
+							do{
+								try{
+									while(opcion<1 || opcion>2){
+										System.out.printf("\n\tAlgoritmo: ");
+										opcion = entrada.nextInt();
+									}
+									break;
+								}
+								catch(InputMismatchException excepcion){
+									entrada.nextLine();
+								}
+							}while(true);
+							if(opcion == 1){
+								System.out.printf("\n\tInicio del entrenamiento...\n");
+								Entrenamiento.algoritmoRetropropagacion(epocas, error, salidas, entradas, rnap);
+								System.out.printf("\n\tFin del entrenamiento...\n");
+							}
+							else{}
+						}
 					}
 				}
 				System.out.printf("\nPresiona <Enter> para continuar...");

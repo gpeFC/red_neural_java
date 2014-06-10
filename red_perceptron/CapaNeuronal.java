@@ -95,9 +95,10 @@ public class CapaNeuronal{
 
 	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa.(Perceptron Simple) */
 	public void actualizarUmbrales(int indice, double error){
-		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (-1.0*this.neuronas[indice].obtenerAlpha()*error));
+		this.neuronas[indice].establecerUmbral(this.neuronas[indice].obtenerUmbral() + (this.neuronas[indice].obtenerAlpha()*error));
 	}
 
+	/** Método para actualizar el valor del umbral\bias de cada una de las neuronas de la capa.(Perceptron Multicapa) */
 	public void actualizarUmbrales(){
 		double umbralAnterior, umbralNuevo=0.0;
 		for(int i=0; i<this.neuronas.length; i++){
@@ -116,7 +117,7 @@ public class CapaNeuronal{
 		this.neuronas[indice].establecerPesos(pesosNuevos);
 	}
 
-	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa. */
+	/** Método para actualizar el valor de los pesos sinapticos de cada una de las neuronas de la capa.(Perceptron Multicapa) */
 	public void actualizarPesos(){
 		double[] pesosAnteriores;
 		double[] pesosNuevos = new double[this.entradas.length];

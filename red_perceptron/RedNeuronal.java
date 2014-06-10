@@ -18,6 +18,7 @@ public class RedNeuronal{
 	private ArrayList<CapaNeuronal> perceptron;
 
 	public RedNeuronal(int numArgs, int numCapas, byte[] numNeursCapa, String nombrePerceptron, String topologiaPerceptron){
+		CapaNeuronal capaNeuronal, capaNeural;
 		this.nombrePerceptron = nombrePerceptron;
 		if(topologiaPerceptron.equals("MULTICAPA"))
 			this.funcionPerceptron = "";
@@ -28,8 +29,14 @@ public class RedNeuronal{
 		this.configuracionFunciones = null;
 		this.perceptron = new ArrayList<CapaNeuronal>(numCapas);
 		for(int i=0; i<numCapas; i++){
-			CapaNeuronal capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs);
-			this.perceptron.add(capaNeuronal);
+			if(i == 0){
+				capaNeuronal = new CapaNeuronal(numNeursCapa[i], numArgs);
+				this.perceptron.add(capaNeuronal);
+			}
+			else{
+				capaNeuronal = new CapaNeuronal(numNeursCapa[i], numNeursCapa[i-1]);
+				this.perceptron.add(capaNeuronal);
+			}
 		}
 	}
 
