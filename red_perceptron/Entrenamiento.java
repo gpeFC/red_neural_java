@@ -152,7 +152,7 @@ public final class Entrenamiento{
 				fin = false;
 			iteraciones++;
 		}
-		System.out.printf("\nEpocas de entrenamiento:   %d.\n", iteraciones+1);
+		System.out.printf("\nEpocas de entrenamiento:   %d.\n", iteraciones);
 		System.out.printf("\nError minimo acordado:     %f.\n", errorMinimo);
 		System.out.printf("\nError minimo alcanzado:    %f.\n", ecm);
 		rnap.mostrarDatosPerceptron();

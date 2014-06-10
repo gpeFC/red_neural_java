@@ -237,6 +237,24 @@ public class RNAP{
 					System.out.printf("\n\tNo hay redes existentes para aplicar.\n");
 				}
 				else{
+					buscar = true;
+					System.out.printf("\n\tRedes existentes.\n");
+					for(int i=0; i<redesNeuronalesPerceptron.size(); i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						System.out.printf("{%s} ", rnap.obtenerNombrePerceptron());
+					}
+					System.out.printf("\nNombre de la red a aplicar: ");
+					entrada.nextLine();
+					nombre = entrada.nextLine();
+					nombre = nombre.toUpperCase();
+					for(int i=0; i<redesNeuronalesPerceptron.size() && buscar; i++){
+						rnap = redesNeuronalesPerceptron.get(i);
+						if(nombre.equals(rnap.obtenerNombrePerceptron()))
+							buscar = false;
+					}
+					if(buscar)
+						System.out.printf("\n\tNombre de red incorrecto.\n");
+					else{}
 				}
 				System.out.printf("\nPresiona <Enter> para continuar...");
 				entrada.nextLine();
@@ -480,18 +498,7 @@ public class RNAP{
 											do{
 												System.out.printf("\nPatron[%d]->Salida: ", i+1);
 												salidas[i] = (double)(entrada.nextDouble());
-												if(rnap.obtenerFuncionPerceptron().equals("HARDLIM")){
-													if(salidas[i]==0 || salidas[i]==1)
-														break;
-													else
-														System.out.println("\tValor incorrecto.");
-												}
-												else{
-													if(salidas[i]==-1 || salidas[i]==1)
-														break;
-													else
-														System.out.println("\tValor incorrecto.");
-												}
+												break;
 											}while(true);
 											break;
 										}

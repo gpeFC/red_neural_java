@@ -132,7 +132,7 @@ public class CapaNeuronal{
 			}
 			else if(indice == 2){
 				for(int j=0; j<this.entradas.length; j++){
-					pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha() * this.delthas[j] * this.entradas[j]);
+					pesosNuevos[j] = pesosAnteriores[j] + (this.neuronas[i].obtenerAlpha() * this.delthas[i] * this.entradas[j]);
 					pesosNuevos[j] = pesosNuevos[j] + (eta * this.incremento[i][j]);
 					this.incremento[i][j] = pesosAnteriores[j] - pesosNuevos[j];
 				}
